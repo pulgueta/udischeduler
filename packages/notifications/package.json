@@ -1,5 +1,5 @@
 {
-  "name": "@repo/notifications",
+  "name": "@udi/notifications",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -14,7 +14,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@repo/typescript-config": "*",
+    "@udi/typescript-config": "*",
     "typescript": "^5.7.3",
     "@types/node": "22.13.4",
     "@types/react": "19.0.9",

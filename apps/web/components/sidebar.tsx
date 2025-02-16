@@ -1,4 +1,4 @@
-import { capitalize } from '@repo/design-system/lib/utils';
+import { capitalize } from '@udi/design-system/lib/utils';
 import type { ReactNode } from 'react';
 
 type SidebarProperties = {

@@ -1,4 +1,4 @@
-import { createMetadata } from '@repo/seo/metadata';
+import { createMetadata } from '@udi/seo/metadata';
 import type { Metadata } from 'next';
 import { ContactForm } from './components/contact-form';
 

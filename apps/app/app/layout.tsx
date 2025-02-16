@@ -1,7 +1,7 @@
-import '@repo/design-system/styles/globals.css';
-import { DesignSystemProvider } from '@repo/design-system';
-import { fonts } from '@repo/design-system/lib/fonts';
-import { Toolbar } from '@repo/feature-flags/components/toolbar';
+import '@udi/design-system/styles/globals.css';
+import { DesignSystemProvider } from '@udi/design-system';
+import { fonts } from '@udi/design-system/lib/fonts';
+import { Toolbar } from '@udi/feature-flags/components/toolbar';
 import type { ReactNode } from 'react';
 
 type RootLayoutProperties = {

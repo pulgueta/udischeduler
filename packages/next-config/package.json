@@ -1,5 +1,5 @@
 {
-  "name": "@repo/next-config",
+  "name": "@udi/next-config",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -7,7 +7,7 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "devDependencies": {
-    "@repo/typescript-config": "*",
+    "@udi/typescript-config": "*",
     "next": "15.1.7"
   },
   "dependencies": {

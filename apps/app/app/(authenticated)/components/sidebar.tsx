@@ -1,20 +1,20 @@
 'use client';
 
-import { OrganizationSwitcher, UserButton } from '@repo/auth/client';
-import { ModeToggle } from '@repo/design-system/components/mode-toggle';
-import { Button } from '@repo/design-system/components/ui/button';
+import { OrganizationSwitcher, UserButton } from '@udi/auth/client';
+import { ModeToggle } from '@udi/design-system/components/mode-toggle';
+import { Button } from '@udi/design-system/components/ui/button';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@repo/design-system/components/ui/collapsible';
+} from '@udi/design-system/components/ui/collapsible';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@repo/design-system/components/ui/dropdown-menu';
+} from '@udi/design-system/components/ui/dropdown-menu';
 import {
   Sidebar,
   SidebarContent,
@@ -32,9 +32,9 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   useSidebar,
-} from '@repo/design-system/components/ui/sidebar';
-import { cn } from '@repo/design-system/lib/utils';
-import { NotificationsTrigger } from '@repo/notifications/components/trigger';
+} from '@udi/design-system/components/ui/sidebar';
+import { cn } from '@udi/design-system/lib/utils';
+import { NotificationsTrigger } from '@udi/notifications/components/trigger';
 import {
   AnchorIcon,
   BookOpenIcon,

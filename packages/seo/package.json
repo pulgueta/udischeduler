@@ -1,5 +1,5 @@
 {
-  "name": "@repo/seo",
+  "name": "@udi/seo",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -12,7 +12,7 @@
     "schema-dts": "^1.1.2"
   },
   "devDependencies": {
-    "@repo/typescript-config": "*",
+    "@udi/typescript-config": "*",
     "@types/lodash.merge": "^4.6.9",
     "@types/node": "22.13.4",
     "@types/react": "19.0.9",

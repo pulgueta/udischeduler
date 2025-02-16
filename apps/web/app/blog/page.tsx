@@ -1,10 +1,10 @@
-import { blog } from '@repo/cms';
-import { Feed } from '@repo/cms/components/feed';
-import { Image } from '@repo/cms/components/image';
-import { cn } from '@repo/design-system/lib/utils';
-import type { Blog, WithContext } from '@repo/seo/json-ld';
-import { JsonLd } from '@repo/seo/json-ld';
-import { createMetadata } from '@repo/seo/metadata';
+import { blog } from '@udi/cms';
+import { Feed } from '@udi/cms/components/feed';
+import { Image } from '@udi/cms/components/image';
+import { cn } from '@udi/design-system/lib/utils';
+import type { Blog, WithContext } from '@udi/seo/json-ld';
+import { JsonLd } from '@udi/seo/json-ld';
+import { createMetadata } from '@udi/seo/metadata';
 import type { Metadata } from 'next';
 import { draftMode } from 'next/headers';
 import Link from 'next/link';

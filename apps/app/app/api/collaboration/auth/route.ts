@@ -1,6 +1,6 @@
-import { auth, currentUser } from '@repo/auth/server';
-import { authenticate } from '@repo/collaboration/auth';
-import { tailwind } from '@repo/tailwind-config';
+import { auth, currentUser } from '@udi/auth/server';
+import { authenticate } from '@udi/collaboration/auth';
+import { tailwind } from '@udi/tailwind-config';
 
 const COLORS = [
   tailwind.theme.colors.red[500],

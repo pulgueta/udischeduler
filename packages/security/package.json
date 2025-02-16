@@ -1,5 +1,5 @@
 {
-  "name": "@repo/security",
+  "name": "@udi/security",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -14,7 +14,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@repo/typescript-config": "*",
+    "@udi/typescript-config": "*",
     "typescript": "^5.7.3"
   }
 }

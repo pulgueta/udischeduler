@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "next-forge",
+      "name": "udischeduler",
       "dependencies": {
         "@clack/prompts": "^0.10.0",
         "commander": "^13.1.0",
@@ -10,9 +10,9 @@
       "devDependencies": {
         "@auto-it/first-time-contributor": "^11.3.0",
         "@biomejs/biome": "1.9.4",
-        "@repo/typescript-config": "*",
         "@turbo/gen": "^2.4.2",
         "@types/node": "^22.13.4",
+        "@udi/typescript-config": "*",
         "tsup": "^8.3.6",
         "turbo": "^2.4.2",
         "typescript": "^5.7.3",
@@ -23,16 +23,16 @@
     "apps/api": {
       "name": "api",
       "dependencies": {
-        "@repo/analytics": "*",
-        "@repo/auth": "*",
-        "@repo/database": "*",
-        "@repo/design-system": "*",
-        "@repo/next-config": "*",
-        "@repo/observability": "*",
-        "@repo/payments": "*",
-        "@repo/testing": "*",
         "@sentry/nextjs": "^9.1.0",
         "@t3-oss/env-nextjs": "^0.12.0",
+        "@udi/analytics": "*",
+        "@udi/auth": "*",
+        "@udi/database": "*",
+        "@udi/design-system": "*",
+        "@udi/next-config": "*",
+        "@udi/observability": "*",
+        "@udi/payments": "*",
+        "@udi/testing": "*",
         "next": "15.1.7",
         "react": "19.0.0",
         "react-dom": "19.0.0",
@@ -41,10 +41,10 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
         "@types/node": "22.13.4",
         "@types/react": "19.0.9",
         "@types/react-dom": "19.0.3",
+        "@udi/typescript-config": "*",
         "concurrently": "^9.1.2",
         "typescript": "^5.7.3",
       },
@@ -53,21 +53,21 @@
       "name": "app",
       "dependencies": {
         "@prisma/client": "6.3.1",
-        "@repo/analytics": "*",
-        "@repo/auth": "*",
-        "@repo/collaboration": "*",
-        "@repo/database": "*",
-        "@repo/design-system": "*",
-        "@repo/feature-flags": "*",
-        "@repo/next-config": "*",
-        "@repo/notifications": "*",
-        "@repo/observability": "*",
-        "@repo/security": "*",
-        "@repo/seo": "*",
-        "@repo/tailwind-config": "*",
-        "@repo/webhooks": "*",
         "@sentry/nextjs": "^9.1.0",
         "@t3-oss/env-nextjs": "^0.12.0",
+        "@udi/analytics": "*",
+        "@udi/auth": "*",
+        "@udi/collaboration": "*",
+        "@udi/database": "*",
+        "@udi/design-system": "*",
+        "@udi/feature-flags": "*",
+        "@udi/next-config": "*",
+        "@udi/notifications": "*",
+        "@udi/observability": "*",
+        "@udi/security": "*",
+        "@udi/seo": "*",
+        "@udi/tailwind-config": "*",
+        "@udi/webhooks": "*",
         "fuse.js": "^7.1.0",
         "import-in-the-middle": "^1.13.0",
         "lucide-react": "^0.475.0",
@@ -79,13 +79,13 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/testing": "*",
-        "@repo/typescript-config": "*",
         "@testing-library/dom": "^10.4.0",
         "@testing-library/react": "^16.2.0",
         "@types/node": "22.13.4",
         "@types/react": "19.0.9",
         "@types/react-dom": "19.0.3",
+        "@udi/testing": "*",
+        "@udi/typescript-config": "*",
         "jsdom": "^26.0.0",
         "tailwindcss": "^3.4.17",
         "typescript": "^5.7.3",
@@ -103,14 +103,14 @@
       "version": "0.0.0",
       "dependencies": {
         "@react-email/components": "0.0.33",
-        "@repo/email": "*",
+        "@udi/email": "*",
         "react": "19.0.0",
         "react-email": "3.0.7",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
         "@types/node": "22.13.4",
         "@types/react": "19.0.9",
+        "@udi/typescript-config": "*",
         "typescript": "^5.7.3",
       },
     },
@@ -118,7 +118,7 @@
       "name": "storybook",
       "version": "0.1.0",
       "dependencies": {
-        "@repo/design-system": "*",
+        "@udi/design-system": "*",
         "lucide-react": "^0.475.0",
         "next": "15.1.7",
         "react": "19.0.0",
@@ -126,7 +126,6 @@
       },
       "devDependencies": {
         "@chromatic-com/storybook": "^3.2.4",
-        "@repo/typescript-config": "*",
         "@storybook/addon-essentials": "^8.5.6",
         "@storybook/addon-interactions": "^8.5.6",
         "@storybook/addon-onboarding": "^8.5.6",
@@ -138,6 +137,7 @@
         "@types/node": "^22",
         "@types/react": "^19",
         "@types/react-dom": "^19",
+        "@udi/typescript-config": "*",
         "chromatic": "^11.25.2",
         "postcss": "^8",
         "storybook": "^8.5.6",
@@ -157,18 +157,18 @@
       "dependencies": {
         "@arcjet/next": "1.0.0-beta.2",
         "@radix-ui/react-icons": "^1.3.2",
-        "@repo/cms": "*",
-        "@repo/design-system": "*",
-        "@repo/email": "*",
-        "@repo/feature-flags": "*",
-        "@repo/next-config": "*",
-        "@repo/observability": "*",
-        "@repo/rate-limit": "*",
-        "@repo/security": "*",
-        "@repo/seo": "*",
-        "@repo/tailwind-config": "*",
         "@sentry/nextjs": "^9.1.0",
         "@t3-oss/env-nextjs": "^0.12.0",
+        "@udi/cms": "*",
+        "@udi/design-system": "*",
+        "@udi/email": "*",
+        "@udi/feature-flags": "*",
+        "@udi/next-config": "*",
+        "@udi/observability": "*",
+        "@udi/rate-limit": "*",
+        "@udi/security": "*",
+        "@udi/seo": "*",
+        "@udi/tailwind-config": "*",
         "date-fns": "^4.1.0",
         "fumadocs-core": "^15.0.8",
         "import-in-the-middle": "^1.13.0",
@@ -184,16 +184,16 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
         "@types/node": "22.13.4",
         "@types/react": "19.0.9",
         "@types/react-dom": "19.0.3",
+        "@udi/typescript-config": "*",
         "tailwindcss": "^3.4.17",
         "typescript": "^5.7.3",
       },
     },
     "packages/ai": {
-      "name": "@repo/ai",
+      "name": "@udi/ai",
       "version": "0.0.0",
       "dependencies": {
         "@ai-sdk/openai": "^1.1.12",
@@ -205,14 +205,14 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
         "@types/node": "22.13.4",
         "@types/react": "19.0.9",
         "@types/react-dom": "^19.0.3",
+        "@udi/typescript-config": "*",
       },
     },
     "packages/analytics": {
-      "name": "@repo/analytics",
+      "name": "@udi/analytics",
       "version": "0.0.0",
       "dependencies": {
         "@next/third-parties": "^15.1.7",
@@ -225,20 +225,20 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
         "@types/node": "22.13.4",
         "@types/react": "19.0.9",
         "@types/react-dom": "^19.0.3",
+        "@udi/typescript-config": "*",
       },
     },
     "packages/auth": {
-      "name": "@repo/auth",
+      "name": "@udi/auth",
       "version": "0.0.0",
       "dependencies": {
         "@clerk/nextjs": "^6.11.3",
         "@clerk/themes": "^2.2.18",
-        "@repo/tailwind-config": "*",
         "@t3-oss/env-nextjs": "^0.12.0",
+        "@udi/tailwind-config": "*",
         "next-themes": "^0.4.4",
         "react": "^19.0.0",
         "server-only": "^0.0.1",
@@ -246,15 +246,15 @@
       },
       "devDependencies": {
         "@clerk/types": "^4.46.0",
-        "@repo/typescript-config": "*",
         "@types/node": "22.13.4",
         "@types/react": "19.0.9",
         "@types/react-dom": "^19.0.3",
+        "@udi/typescript-config": "*",
         "typescript": "^5.7.3",
       },
     },
     "packages/cms": {
-      "name": "@repo/cms",
+      "name": "@udi/cms",
       "version": "0.0.0",
       "dependencies": {
         "@t3-oss/env-nextjs": "^0.12.0",
@@ -263,15 +263,15 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
         "@types/node": "22.13.4",
         "@types/react": "19.0.9",
         "@types/react-dom": "^19.0.3",
+        "@udi/typescript-config": "*",
         "next": "15.1.7",
       },
     },
     "packages/collaboration": {
-      "name": "@repo/collaboration",
+      "name": "@udi/collaboration",
       "version": "0.0.0",
       "dependencies": {
         "@liveblocks/client": "^2.18.1",
@@ -283,14 +283,14 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
         "@types/node": "22.13.4",
         "@types/react": "19.0.9",
         "@types/react-dom": "^19.0.3",
+        "@udi/typescript-config": "*",
       },
     },
     "packages/database": {
-      "name": "@repo/database",
+      "name": "@udi/database",
       "version": "0.0.0",
       "dependencies": {
         "@neondatabase/serverless": "^0.10.4",
@@ -303,16 +303,16 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
         "@types/node": "22.13.4",
         "@types/ws": "^8.5.14",
+        "@udi/typescript-config": "*",
         "bufferutil": "^4.0.9",
         "prisma": "6.3.1",
         "typescript": "^5.7.3",
       },
     },
     "packages/design-system": {
-      "name": "@repo/design-system",
+      "name": "@udi/design-system",
       "version": "0.0.0",
       "dependencies": {
         "@hookform/resolvers": "^4.1.0",
@@ -344,9 +344,9 @@
         "@radix-ui/react-toggle": "^1.1.2",
         "@radix-ui/react-toggle-group": "^1.1.2",
         "@radix-ui/react-tooltip": "^1.1.8",
-        "@repo/analytics": "*",
-        "@repo/auth": "*",
-        "@repo/observability": "*",
+        "@udi/analytics": "*",
+        "@udi/auth": "*",
+        "@udi/observability": "*",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "cmdk": "^1.0.4",
@@ -369,9 +369,9 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
         "@types/node": "^22.13.4",
         "@types/react": "^19.0.9",
+        "@udi/typescript-config": "*",
         "autoprefixer": "^10.4.20",
         "postcss": "^8.5.2",
         "tailwindcss": "^3.4.17",
@@ -379,7 +379,7 @@
       },
     },
     "packages/email": {
-      "name": "@repo/email",
+      "name": "@udi/email",
       "version": "0.0.0",
       "dependencies": {
         "@react-email/components": "0.0.33",
@@ -390,31 +390,31 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
         "@types/node": "22.13.4",
         "@types/react": "19.0.9",
         "@types/react-dom": "^19.0.3",
+        "@udi/typescript-config": "*",
         "typescript": "^5.7.3",
       },
     },
     "packages/feature-flags": {
-      "name": "@repo/feature-flags",
+      "name": "@udi/feature-flags",
       "version": "0.0.0",
       "dependencies": {
-        "@repo/analytics": "*",
-        "@repo/auth": "*",
-        "@repo/design-system": "*",
         "@t3-oss/env-nextjs": "^0.12.0",
+        "@udi/analytics": "*",
+        "@udi/auth": "*",
+        "@udi/design-system": "*",
         "@vercel/flags": "^3.1.1",
         "@vercel/toolbar": "^0.1.30",
         "react": "^19.0.0",
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
         "@types/node": "22.13.4",
         "@types/react": "19.0.9",
         "@types/react-dom": "^19.0.3",
+        "@udi/typescript-config": "*",
         "typescript": "^5.7.3",
       },
       "peerDependencies": {
@@ -422,7 +422,7 @@
       },
     },
     "packages/next-config": {
-      "name": "@repo/next-config",
+      "name": "@udi/next-config",
       "version": "0.0.0",
       "dependencies": {
         "@next/bundle-analyzer": "^15.1.7",
@@ -432,12 +432,12 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
+        "@udi/typescript-config": "*",
         "next": "15.1.7",
       },
     },
     "packages/notifications": {
-      "name": "@repo/notifications",
+      "name": "@udi/notifications",
       "version": "0.0.0",
       "dependencies": {
         "@knocklabs/node": "^0.6.17",
@@ -447,15 +447,15 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
         "@types/node": "22.13.4",
         "@types/react": "19.0.9",
         "@types/react-dom": "^19.0.3",
+        "@udi/typescript-config": "*",
         "typescript": "^5.7.3",
       },
     },
     "packages/observability": {
-      "name": "@repo/observability",
+      "name": "@udi/observability",
       "version": "0.0.0",
       "dependencies": {
         "@logtail/next": "^0.1.7",
@@ -465,15 +465,15 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
         "@types/node": "22.13.4",
         "@types/react": "19.0.9",
         "@types/react-dom": "^19.0.3",
+        "@udi/typescript-config": "*",
         "typescript": "^5.7.3",
       },
     },
     "packages/payments": {
-      "name": "@repo/payments",
+      "name": "@udi/payments",
       "version": "0.0.0",
       "dependencies": {
         "@stripe/agent-toolkit": "^0.4.0",
@@ -482,12 +482,12 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
+        "@udi/typescript-config": "*",
         "typescript": "^5.7.3",
       },
     },
     "packages/rate-limit": {
-      "name": "@repo/rate-limit",
+      "name": "@udi/rate-limit",
       "version": "0.0.0",
       "dependencies": {
         "@t3-oss/env-nextjs": "^0.12.0",
@@ -496,12 +496,12 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
+        "@udi/typescript-config": "*",
         "typescript": "^5.7.3",
       },
     },
     "packages/security": {
-      "name": "@repo/security",
+      "name": "@udi/security",
       "version": "0.0.0",
       "dependencies": {
         "@arcjet/next": "1.0.0-beta.2",
@@ -510,12 +510,12 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
+        "@udi/typescript-config": "*",
         "typescript": "^5.7.3",
       },
     },
     "packages/seo": {
-      "name": "@repo/seo",
+      "name": "@udi/seo",
       "version": "0.0.0",
       "dependencies": {
         "lodash.merge": "^4.6.2",
@@ -523,16 +523,16 @@
         "schema-dts": "^1.1.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
         "@types/lodash.merge": "^4.6.9",
         "@types/node": "22.13.4",
         "@types/react": "19.0.9",
         "@types/react-dom": "^19.0.3",
+        "@udi/typescript-config": "*",
         "next": "15.1.7",
       },
     },
     "packages/storage": {
-      "name": "@repo/storage",
+      "name": "@udi/storage",
       "version": "0.0.0",
       "dependencies": {
         "@t3-oss/env-nextjs": "^0.12.0",
@@ -540,11 +540,11 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
+        "@udi/typescript-config": "*",
       },
     },
     "packages/tailwind-config": {
-      "name": "@repo/tailwind-config",
+      "name": "@udi/tailwind-config",
       "version": "0.0.0",
       "dependencies": {
         "@tailwindcss/typography": "^0.5.16",
@@ -552,12 +552,12 @@
         "tailwindcss-animate": "^1.0.7",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
+        "@udi/typescript-config": "*",
         "tailwindcss": "^3.4.17",
       },
     },
     "packages/testing": {
-      "name": "@repo/testing",
+      "name": "@udi/testing",
       "version": "0.0.0",
       "devDependencies": {
         "@vitejs/plugin-react": "^4.3.4",
@@ -565,24 +565,31 @@
       },
     },
     "packages/typescript-config": {
-      "name": "@repo/typescript-config",
+      "name": "@udi/typescript-config",
       "version": "0.0.0",
     },
     "packages/webhooks": {
-      "name": "@repo/webhooks",
+      "name": "@udi/webhooks",
       "version": "0.0.0",
       "dependencies": {
-        "@repo/auth": "*",
         "@t3-oss/env-nextjs": "^0.12.0",
+        "@udi/auth": "*",
         "svix": "^1.57.0",
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@repo/typescript-config": "*",
+        "@udi/typescript-config": "*",
         "typescript": "^5.7.3",
       },
     },
   },
+  "trustedDependencies": [
+    "core-js",
+    "@biomejs/biome",
+    "core-js-pure",
+    "@clerk/shared",
+    "@sentry/cli",
+  ],
   "packages": {
     "@adobe/css-tools": ["@adobe/css-tools@4.4.2", "", {}, "sha512-baYZExFpsdkBNuvGKTKWCwKH57HRZLVtycZS05WTQNVOiXVSeAki3nU35zlRbToeMW8aHlJfyS+1C4BOv27q0A=="],
 
@@ -1394,48 +1401,6 @@
 
     "@react-email/text": ["@react-email/text@0.0.11", "", { "peerDependencies": { "react": "^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-a7nl/2KLpRHOYx75YbYZpWspUbX1DFY7JIZbOv5x0QU8SvwDbJt+Hm01vG34PffFyYvHEXrc6Qnip2RTjljNjg=="],
 
-    "@repo/ai": ["@repo/ai@workspace:packages/ai"],
-
-    "@repo/analytics": ["@repo/analytics@workspace:packages/analytics"],
-
-    "@repo/auth": ["@repo/auth@workspace:packages/auth"],
-
-    "@repo/cms": ["@repo/cms@workspace:packages/cms"],
-
-    "@repo/collaboration": ["@repo/collaboration@workspace:packages/collaboration"],
-
-    "@repo/database": ["@repo/database@workspace:packages/database"],
-
-    "@repo/design-system": ["@repo/design-system@workspace:packages/design-system"],
-
-    "@repo/email": ["@repo/email@workspace:packages/email"],
-
-    "@repo/feature-flags": ["@repo/feature-flags@workspace:packages/feature-flags"],
-
-    "@repo/next-config": ["@repo/next-config@workspace:packages/next-config"],
-
-    "@repo/notifications": ["@repo/notifications@workspace:packages/notifications"],
-
-    "@repo/observability": ["@repo/observability@workspace:packages/observability"],
-
-    "@repo/payments": ["@repo/payments@workspace:packages/payments"],
-
-    "@repo/rate-limit": ["@repo/rate-limit@workspace:packages/rate-limit"],
-
-    "@repo/security": ["@repo/security@workspace:packages/security"],
-
-    "@repo/seo": ["@repo/seo@workspace:packages/seo"],
-
-    "@repo/storage": ["@repo/storage@workspace:packages/storage"],
-
-    "@repo/tailwind-config": ["@repo/tailwind-config@workspace:packages/tailwind-config"],
-
-    "@repo/testing": ["@repo/testing@workspace:packages/testing"],
-
-    "@repo/typescript-config": ["@repo/typescript-config@workspace:packages/typescript-config"],
-
-    "@repo/webhooks": ["@repo/webhooks@workspace:packages/webhooks"],
-
     "@rollup/plugin-commonjs": ["@rollup/plugin-commonjs@28.0.1", "", { "dependencies": { "@rollup/pluginutils": "^5.0.1", "commondir": "^1.0.1", "estree-walker": "^2.0.2", "fdir": "^6.2.0", "is-reference": "1.2.1", "magic-string": "^0.30.3", "picomatch": "^4.0.2" }, "peerDependencies": { "rollup": "^2.68.0||^3.0.0||^4.0.0" }, "optionalPeers": ["rollup"] }, "sha512-+tNWdlWKbpB3WgBN7ijjYkq9X5uhjmcvyjEght4NmH5fAU++zfQzAJ6wumLS+dNcvwEZhKx2Z+skY8m7v0wGSA=="],
 
     "@rollup/pluginutils": ["@rollup/pluginutils@5.1.4", "", { "dependencies": { "@types/estree": "^1.0.0", "estree-walker": "^2.0.2", "picomatch": "^4.0.2" }, "peerDependencies": { "rollup": "^1.20.0||^2.0.0||^3.0.0||^4.0.0" }, "optionalPeers": ["rollup"] }, "sha512-USm05zrsFxYLPdWWq+K3STlWiT/3ELn3RcV5hJMghpeAIhxfsUIg6mt12CBJBInWMV4VneoV7SfGv8xIwo2qNQ=="],
@@ -1815,6 +1780,48 @@
     "@types/uuid": ["@types/uuid@9.0.8", "", {}, "sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA=="],
 
     "@types/ws": ["@types/ws@8.5.14", "", { "dependencies": { "@types/node": "*" } }, "sha512-bd/YFLW+URhBzMXurx7lWByOu+xzU9+kb3RboOteXYDfW+tr+JZa99OyNmPINEGB/ahzKrEuc8rcv4gnpJmxTw=="],
+
+    "@udi/ai": ["@udi/ai@workspace:packages/ai"],
+
+    "@udi/analytics": ["@udi/analytics@workspace:packages/analytics"],
+
+    "@udi/auth": ["@udi/auth@workspace:packages/auth"],
+
+    "@udi/cms": ["@udi/cms@workspace:packages/cms"],
+
+    "@udi/collaboration": ["@udi/collaboration@workspace:packages/collaboration"],
+
+    "@udi/database": ["@udi/database@workspace:packages/database"],
+
+    "@udi/design-system": ["@udi/design-system@workspace:packages/design-system"],
+
+    "@udi/email": ["@udi/email@workspace:packages/email"],
+
+    "@udi/feature-flags": ["@udi/feature-flags@workspace:packages/feature-flags"],
+
+    "@udi/next-config": ["@udi/next-config@workspace:packages/next-config"],
+
+    "@udi/notifications": ["@udi/notifications@workspace:packages/notifications"],
+
+    "@udi/observability": ["@udi/observability@workspace:packages/observability"],
+
+    "@udi/payments": ["@udi/payments@workspace:packages/payments"],
+
+    "@udi/rate-limit": ["@udi/rate-limit@workspace:packages/rate-limit"],
+
+    "@udi/security": ["@udi/security@workspace:packages/security"],
+
+    "@udi/seo": ["@udi/seo@workspace:packages/seo"],
+
+    "@udi/storage": ["@udi/storage@workspace:packages/storage"],
+
+    "@udi/tailwind-config": ["@udi/tailwind-config@workspace:packages/tailwind-config"],
+
+    "@udi/testing": ["@udi/testing@workspace:packages/testing"],
+
+    "@udi/typescript-config": ["@udi/typescript-config@workspace:packages/typescript-config"],
+
+    "@udi/webhooks": ["@udi/webhooks@workspace:packages/webhooks"],
 
     "@ungap/structured-clone": ["@ungap/structured-clone@1.3.0", "", {}, "sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g=="],
 
@@ -4264,7 +4271,7 @@
 
     "anymatch/picomatch": ["picomatch@2.3.1", "", {}, "sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA=="],
 
-    "aria-hidden/tslib": ["tslib@2.4.1", "", {}, "sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA=="],
+    "aria-hidden/tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
 
     "asn1.js/bn.js": ["bn.js@4.12.1", "", {}, "sha512-k8TVBiPkPJT9uHLdOKfFpqcfprwBFOAAXXozRubr7R7PfIuKvQlzcI4M0pALeqXN09vdaMbUdUj+pass+uULAg=="],
 
@@ -4464,7 +4471,7 @@
 
     "react-email/next": ["next@15.1.2", "", { "dependencies": { "@next/env": "15.1.2", "@swc/counter": "0.1.3", "@swc/helpers": "0.5.15", "busboy": "1.6.0", "caniuse-lite": "^1.0.30001579", "postcss": "8.4.31", "styled-jsx": "5.1.6" }, "optionalDependencies": { "@next/swc-darwin-arm64": "15.1.2", "@next/swc-darwin-x64": "15.1.2", "@next/swc-linux-arm64-gnu": "15.1.2", "@next/swc-linux-arm64-musl": "15.1.2", "@next/swc-linux-x64-gnu": "15.1.2", "@next/swc-linux-x64-musl": "15.1.2", "@next/swc-win32-arm64-msvc": "15.1.2", "@next/swc-win32-x64-msvc": "15.1.2", "sharp": "^0.33.5" }, "peerDependencies": { "@opentelemetry/api": "^1.1.0", "@playwright/test": "^1.41.2", "babel-plugin-react-compiler": "*", "react": "^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0", "react-dom": "^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0", "sass": "^1.3.0" }, "optionalPeers": ["@opentelemetry/api", "@playwright/test", "babel-plugin-react-compiler", "sass"], "bin": { "next": "dist/bin/next" } }, "sha512-nLJDV7peNy+0oHlmY2JZjzMfJ8Aj0/dd3jCwSZS8ZiO5nkQfcZRqDrRN3U5rJtqVTQneIOGZzb6LCNrk7trMCQ=="],
 
-    "react-remove-scroll/tslib": ["tslib@2.4.1", "", {}, "sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA=="],
+    "react-remove-scroll/tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
 
     "react-remove-scroll-bar/tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
 

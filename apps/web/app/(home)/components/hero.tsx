@@ -1,7 +1,7 @@
 import { env } from '@/env';
-import { blog } from '@repo/cms';
-import { Feed } from '@repo/cms/components/feed';
-import { Button } from '@repo/design-system/components/ui/button';
+import { blog } from '@udi/cms';
+import { Feed } from '@udi/cms/components/feed';
+import { Button } from '@udi/design-system/components/ui/button';
 import { MoveRight, PhoneCall } from 'lucide-react';
 import { draftMode } from 'next/headers';
 import Link from 'next/link';

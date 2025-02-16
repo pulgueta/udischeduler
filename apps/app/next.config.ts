@@ -1,7 +1,7 @@
 import { env } from '@/env';
-import { withToolbar } from '@repo/feature-flags/lib/toolbar';
-import { config, withAnalyzer } from '@repo/next-config';
-import { withLogtail, withSentry } from '@repo/observability/next-config';
+import { withToolbar } from '@udi/feature-flags/lib/toolbar';
+import { config, withAnalyzer } from '@udi/next-config';
+import { withLogtail, withSentry } from '@udi/observability/next-config';
 import type { NextConfig } from 'next';
 
 let nextConfig: NextConfig = withToolbar(withLogtail({ ...config }));

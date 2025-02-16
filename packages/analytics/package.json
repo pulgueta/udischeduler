@@ -1,5 +1,5 @@
 {
-  "name": "@repo/analytics",
+  "name": "@udi/analytics",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -17,7 +17,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@repo/typescript-config": "*",
+    "@udi/typescript-config": "*",
     "@types/node": "22.13.4",
     "@types/react": "19.0.9",
     "@types/react-dom": "^19.0.3"

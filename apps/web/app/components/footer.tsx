@@ -1,7 +1,7 @@
 import { env } from '@/env';
-import { legal } from '@repo/cms';
-import { Feed } from '@repo/cms/components/feed';
-import { Status } from '@repo/observability/status';
+import { legal } from '@udi/cms';
+import { Feed } from '@udi/cms/components/feed';
+import { Status } from '@udi/observability/status';
 import Link from 'next/link';
 
 export const Footer = () => (

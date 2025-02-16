@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@repo/design-system": "*",
+    "@udi/design-system": "*",
     "lucide-react": "^0.475.0",
     "next": "15.1.7",
     "react": "19.0.0",
@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.4",
-    "@repo/typescript-config": "*",
+    "@udi/typescript-config": "*",
     "@storybook/addon-essentials": "^8.5.6",
     "@storybook/addon-interactions": "^8.5.6",
     "@storybook/addon-onboarding": "^8.5.6",

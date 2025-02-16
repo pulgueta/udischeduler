@@ -1,12 +1,12 @@
 import { env } from '@/env';
-import { authMiddleware } from '@repo/auth/middleware';
-import { parseError } from '@repo/observability/error';
-import { secure } from '@repo/security';
+import { authMiddleware } from '@udi/auth/middleware';
+import { parseError } from '@udi/observability/error';
+import { secure } from '@udi/security';
 import {
   noseconeMiddleware,
   noseconeOptions,
   noseconeOptionsWithToolbar,
-} from '@repo/security/middleware';
+} from '@udi/security/middleware';
 import { NextResponse } from 'next/server';
 
 export const config = {
