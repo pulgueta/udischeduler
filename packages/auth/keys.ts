@@ -1,29 +1,19 @@
-import { createEnv } from '@t3-oss/env-nextjs';
-import { z } from 'zod';
+import { createEnv } from '@t3-oss/env-core';
+import { string } from 'zod';
 
-export const keys = () =>
-  createEnv({
-    server: {
-      CLERK_SECRET_KEY: z.string().min(1).startsWith('sk_'),
-      CLERK_WEBHOOK_SECRET: z.string().min(1).startsWith('whsec_').optional(),
-    },
-    client: {
-      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1).startsWith('pk_'),
-      NEXT_PUBLIC_CLERK_SIGN_IN_URL: z.string().min(1).startsWith('/'),
-      NEXT_PUBLIC_CLERK_SIGN_UP_URL: z.string().min(1).startsWith('/'),
-      NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: z.string().min(1).startsWith('/'),
-      NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: z.string().min(1).startsWith('/'),
-    },
-    runtimeEnv: {
-      CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
-      CLERK_WEBHOOK_SECRET: process.env.CLERK_WEBHOOK_SECRET,
-      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
-        process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
-      NEXT_PUBLIC_CLERK_SIGN_IN_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL,
-      NEXT_PUBLIC_CLERK_SIGN_UP_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL,
-      NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL:
-        process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL,
-      NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL:
-        process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL,
-    },
-  });
+export const keys = createEnv({
+  server: {
+    BETTER_AUTH_SECRET: string().min(1),
+    DATABASE_URL: string().min(1).url(),
+  },
+  clientPrefix: 'PUBLIC_',
+  client: {
+    PUBLIC_BASE_URL: string().min(1).url(),
+  },
+  runtimeEnv: {
+    DATABASE_URL: process.env.DATABASE_URL,
+    BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
+    PUBLIC_BASE_URL: process.env.PUBLIC_BASE_URL,
+  },
+  emptyStringAsUndefined: true,
+});
