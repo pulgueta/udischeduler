@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm';
 import {
   boolean,
   integer,
@@ -31,6 +32,10 @@ export const student = pgTable('student', {
   email: text().notNull().unique(),
   ...timestamps,
 });
+
+export const studentRelations = relations(student, ({ many }) => ({
+  bookings: many(booking),
+}));
 
 export const session = pgTable('session', {
   id: text().primaryKey(),
@@ -84,13 +89,18 @@ export const passkey = pgTable('passkey', {
   ...timestamps,
 });
 
+export const booking = pgTable('booking', {
+  id: text().primaryKey(),
+  userId: text()
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  bookingDate: timestamp().notNull(),
+  ...timestamps,
+});
 
- export const booking = pgTable('booking', {
-   id: text().primaryKey(),
-   userId: text()
-     .notNull()
-     .references(() => user.id, { onDelete: 'cascade' }),
-     
-   bookingDate: timestamp().notNull(),
-   ...timestamps,
- });
+export const bookingRelations = relations(booking, ({ one }) => ({
+  user: one(user, {
+    fields: [booking.userId],
+    references: [user.id],
+  }),
+}));
