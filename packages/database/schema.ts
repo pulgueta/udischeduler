@@ -22,6 +22,16 @@ export const user = pgTable('user', {
   ...timestamps,
 });
 
+export const student = pgTable('student', {
+  id: text().primaryKey(),
+  userId: text()
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  name: text().notNull(),
+  email: text().notNull().unique(),
+  ...timestamps,
+});
+
 export const session = pgTable('session', {
   id: text().primaryKey(),
   expiresAt: timestamp().notNull(),
@@ -73,3 +83,14 @@ export const passkey = pgTable('passkey', {
   transports: text(),
   ...timestamps,
 });
+
+
+ export const booking = pgTable('booking', {
+   id: text().primaryKey(),
+   userId: text()
+     .notNull()
+     .references(() => user.id, { onDelete: 'cascade' }),
+     
+   bookingDate: timestamp().notNull(),
+   ...timestamps,
+ });
