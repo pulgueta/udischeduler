@@ -1,5 +1,5 @@
 {
-  "id": "211a1a1d-10f2-4060-8aa6-c490961747ec",
+  "id": "35b863b3-dd4c-45f0-a71f-3c82822b54dd",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -148,7 +148,38 @@
           "default": "now()"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "booking_id_idx": {
+          "name": "booking_id_idx",
+          "columns": [
+            {
+              "expression": "id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "booking_user_id_idx": {
+          "name": "booking_user_id_idx",
+          "columns": [
+            {
+              "expression": "userId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "booking_userId_user_id_fk": {
           "name": "booking_userId_user_id_fk",
@@ -393,7 +424,38 @@
           "default": "now()"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "student_id_idx": {
+          "name": "student_id_idx",
+          "columns": [
+            {
+              "expression": "id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "student_user_id_idx": {
+          "name": "student_user_id_idx",
+          "columns": [
+            {
+              "expression": "userId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "student_userId_user_id_fk": {
           "name": "student_userId_user_id_fk",
@@ -420,7 +482,12 @@
         }
       },
       "policies": {},
-      "checkConstraints": {},
+      "checkConstraints": {
+        "student_email_check": {
+          "name": "student_email_check",
+          "value": "\"student\".\"email\" like $1"
+        }
+      },
       "isRLSEnabled": false
     },
     "public.user": {

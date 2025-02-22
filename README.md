@@ -1,25 +1,39 @@
-# next-forge
+# UDIScheduler
 
-**Production-grade Turborepo template for Next.js apps.**
+This project was created as a classroom project at UDI. The goal of this repository is to be adopted by the university itself to manage the scheduling of computing rooms. This project also aims to be a tool for students to learn about software development and project management in future classes.
 
-<div>
-  <img src="https://img.shields.io/npm/dy/next-forge" alt="" />
-  <img src="https://img.shields.io/npm/v/next-forge" alt="" />
-  <img src="https://img.shields.io/github/license/haydenbleasel/next-forge" alt="" />
-</div>
+## Structure
 
-[next-forge](https://github.com/haydenbleasel/next-forge) is a [Next.js](https://nextjs.org/) project boilerplate for modern web application. It is designed to be a comprehensive starting point for new apps, providing a solid, opinionated foundation with a minimal amount of configuration.
+The project is divided into the `packages` and `apps` folders.
 
-Clone the repo using:
+* The [`packages`](./packages/README.md) folder contains shareable code that can be used across all the apps to avoid code duplication.
+* The [`apps`](./apps/README.md) folder contains the applications that will be used by the end-users, like frontend and backend.
 
-```sh
-npx next-forge@latest init
+## Getting started
+
+You must have the following tools installed in order to run this project correctly:
+
+* [Bun](https://bun.sh/)
+* [Docker](https://www.docker.com/)
+
+### Steps
+<!-- WIP: Check for future steps and add them -->
+
+1. Clone this repository
+
+```bash
+git clone https://github.com/pulgueta/udischeduler
 ```
 
-Then read the [docs](https://docs.next-forge.com) for more information.
+2. Install the dependencies
 
-<a href="https://github.com/haydenbleasel/next-forge/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=haydenbleasel/next-forge" />
-</a>
+```bash
+cd udischeduler
+bun install
+```
 
-Made with [contrib.rocks](https://contrib.rocks).
+3. Run the project
+
+```bash
+bun dev
+```

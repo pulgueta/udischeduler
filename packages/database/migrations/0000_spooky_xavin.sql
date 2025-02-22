@@ -55,7 +55,8 @@ CREATE TABLE "student" (
 	"email" text NOT NULL,
 	"createdAt" timestamp DEFAULT now(),
 	"updatedAt" timestamp DEFAULT now(),
-	CONSTRAINT "student_email_unique" UNIQUE("email")
+	CONSTRAINT "student_email_unique" UNIQUE("email"),
+	CONSTRAINT "student_email_check" CHECK ("student"."email" like $1)
 );
 --> statement-breakpoint
 CREATE TABLE "user" (
@@ -82,4 +83,8 @@ ALTER TABLE "account" ADD CONSTRAINT "account_userId_user_id_fk" FOREIGN KEY ("u
 ALTER TABLE "booking" ADD CONSTRAINT "booking_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "passkey" ADD CONSTRAINT "passkey_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "session" ADD CONSTRAINT "session_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "student" ADD CONSTRAINT "student_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+ALTER TABLE "student" ADD CONSTRAINT "student_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+CREATE UNIQUE INDEX "booking_id_idx" ON "booking" USING btree ("id");--> statement-breakpoint
+CREATE UNIQUE INDEX "booking_user_id_idx" ON "booking" USING btree ("userId");--> statement-breakpoint
+CREATE UNIQUE INDEX "student_id_idx" ON "student" USING btree ("id");--> statement-breakpoint
+CREATE UNIQUE INDEX "student_user_id_idx" ON "student" USING btree ("userId");

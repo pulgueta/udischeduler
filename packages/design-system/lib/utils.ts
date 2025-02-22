@@ -1,4 +1,3 @@
-import { parseError } from '@udi/observability/error';
 import { clsx } from 'clsx';
 import type { ClassValue } from 'clsx';
 import { toast } from 'sonner';
@@ -10,7 +9,6 @@ export const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1);
 
 export const handleError = (error: unknown): void => {
-  const message = parseError(error);
 
-  toast.error(message);
+  toast.error(error instanceof Error ? error.message : 'An error occurred');
 };

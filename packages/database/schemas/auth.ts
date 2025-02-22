@@ -1,4 +1,3 @@
-import { relations } from 'drizzle-orm';
 import {
   boolean,
   integer,
@@ -7,12 +6,7 @@ import {
   timestamp,
 } from 'drizzle-orm/pg-core';
 
-const timestamps = {
-  createdAt: timestamp().defaultNow(),
-  updatedAt: timestamp()
-    .defaultNow()
-    .$onUpdateFn(() => new Date()),
-};
+import { timestamps } from '.';
 
 export const user = pgTable('user', {
   id: text().primaryKey(),
@@ -22,20 +16,6 @@ export const user = pgTable('user', {
   image: text(),
   ...timestamps,
 });
-
-export const student = pgTable('student', {
-  id: text().primaryKey(),
-  userId: text()
-    .notNull()
-    .references(() => user.id, { onDelete: 'cascade' }),
-  name: text().notNull(),
-  email: text().notNull().unique(),
-  ...timestamps,
-});
-
-export const studentRelations = relations(student, ({ many }) => ({
-  bookings: many(booking),
-}));
 
 export const session = pgTable('session', {
   id: text().primaryKey(),
@@ -88,19 +68,3 @@ export const passkey = pgTable('passkey', {
   transports: text(),
   ...timestamps,
 });
-
-export const booking = pgTable('booking', {
-  id: text().primaryKey(),
-  userId: text()
-    .notNull()
-    .references(() => user.id, { onDelete: 'cascade' }),
-  bookingDate: timestamp().notNull(),
-  ...timestamps,
-});
-
-export const bookingRelations = relations(booking, ({ one }) => ({
-  user: one(user, {
-    fields: [booking.userId],
-    references: [user.id],
-  }),
-}));
