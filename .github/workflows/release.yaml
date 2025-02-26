@@ -23,3 +23,5 @@ jobs:
         uses: changesets/action
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          cwd: packages/api
