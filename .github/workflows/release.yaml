@@ -9,6 +9,8 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release:
+    name: Version API
+    if: github.repository == 'pulgueta/udischeduler' && github.repository_owner == 'pulgueta'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -24,4 +26,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          cwd: packages/api
+          commit: "chore(release): version packages"
+          title: "chore(release): version packages"
+          version: bunx changeset version
