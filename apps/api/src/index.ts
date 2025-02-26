@@ -1,9 +1,12 @@
-import { Hono } from 'hono';
+import { bookingRouter } from '@/routes/booking';
+import { createApp } from '@/routes/router';
 
-const app = new Hono();
+const app = createApp();
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!');
-});
+const routes = [bookingRouter] as const;
+
+for (const route of routes) {
+  app.route('/', route);
+}
 
 export default app;
