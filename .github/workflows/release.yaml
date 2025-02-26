@@ -16,8 +16,22 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup environment
-        uses: ./.github/setup
+      - name: Install Bun
+        uses: oven-sh/setup-bun
+        with:
+          bun-version: latest
+
+      - name: Setup cache
+        uses: actions/cache
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-${{ matrix.bun }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.bun }}-bun-
+        
+      - name: Install dependencies
+        shell: bash
+        run: bun install
 
       - name: Create Release Pull Request
         uses: changesets/action
