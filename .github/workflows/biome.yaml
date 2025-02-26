@@ -17,26 +17,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install Bun
-        uses: oven-sh/setup-bun
-        with:
-          bun-version: latest
-
-      - name: Setup cache
-        uses: actions/cache
-        with:
-          path: ~/.bun/install/cache
-          key: ${{ runner.os }}-${{ matrix.bun }}-bun-${{ hashFiles('**/bun.lockb') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.bun }}-bun-
-        
-      - name: Install dependencies
-        shell: bash
-        run: bun install
+      - name: Setup environment
+        uses: ./.github/setup
   
       - name: Run format
         run: bun format
