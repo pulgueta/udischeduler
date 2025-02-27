@@ -1,5 +1,5 @@
 import { like, relations } from 'drizzle-orm';
-import { check, pgTable, text, uniqueIndex } from 'drizzle-orm/pg-core';
+import { check, pgTable, uniqueIndex } from 'drizzle-orm/pg-core';
 import {
   createInsertSchema,
   createSelectSchema,
@@ -9,13 +9,12 @@ import { ulid } from 'ulid';
 import type { TypeOf } from 'zod';
 import { string } from 'zod';
 
-import { timestamps } from '.';
 import { user } from './auth';
 import { booking } from './booking';
 
 export const student = pgTable(
   'student',
-  {
+  ({ text, timestamp }) => ({
     id: text()
       .primaryKey()
       .$defaultFn(() => ulid()),
@@ -24,8 +23,11 @@ export const student = pgTable(
       .references(() => user.id, { onDelete: 'cascade' }),
     name: text().notNull(),
     email: text().notNull().unique(),
-    ...timestamps,
-  },
+    createdAt: timestamp().defaultNow(),
+    updatedAt: timestamp()
+      .defaultNow()
+      .$onUpdateFn(() => new Date()),
+  }),
   (t) => [
     check('student_email_check', like(t.email, '%@udi.edu.co%')),
     uniqueIndex('student_id_idx').on(t.id),
@@ -47,7 +49,7 @@ export const createStudentSchema = createInsertSchema(student, {
   id: true,
 });
 
-export const selectUserSchema = createSelectSchema(student).omit({
+export const selectStudentSchema = createSelectSchema(student).omit({
   updatedAt: true,
 });
 
@@ -58,7 +60,7 @@ export const updateStudentSchema = createUpdateSchema(student).omit({
 });
 
 export type CreateStudent = TypeOf<typeof createStudentSchema>;
-export type Student = TypeOf<typeof selectUserSchema>;
+export type Student = TypeOf<typeof selectStudentSchema>;
 export type UpdateStudent = TypeOf<typeof updateStudentSchema>;
 
 export const studentRelations = relations(student, ({ many }) => ({

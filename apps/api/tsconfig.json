@@ -5,6 +5,7 @@
     "jsxImportSource": "hono/jsx",
     "resolveJsonModule": true,
     "paths": {
+      "@udi/*": ["../../packages/*"],
       "@/*": ["./src/*"]
     }
   }

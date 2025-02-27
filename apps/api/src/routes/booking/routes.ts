@@ -1,20 +1,25 @@
 import { createRoute } from '@hono/zod-openapi';
 
-import { NOT_FOUND, TOO_MANY_REQUESTS } from 'stoker/http-status-codes';
-import { jsonContent } from 'stoker/openapi/helpers';
+import {
+  createStudentSchema,
+  selectStudentSchema,
+} from '@udi/database/schemas/student';
+import { paginationSchema } from '@udi/database/utils/queries';
+import { NOT_FOUND, OK, TOO_MANY_REQUESTS } from 'stoker/http-status-codes';
+import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
 
 import { notFoundSchema, tooManyRequestsSchema } from '@/schemas';
 
-const tags = ['images'];
+const tags = ['student'];
 
-export const postBooking = createRoute({
-  path: '/booking',
+export const createStudent = createRoute({
+  path: '/student',
   method: 'post',
   request: {
-    // body: jsonContentRequired(optimizeImageSchema, 'The image to optimize'),
+    body: jsonContentRequired(createStudentSchema, 'The student to create'),
   },
   responses: {
-    // [OK]: jsonContent(optimizeImageResponseSchema, 'The image was optimized'),
+    [OK]: jsonContent(selectStudentSchema, 'The student was created'),
     [TOO_MANY_REQUESTS]: jsonContent(
       tooManyRequestsSchema,
       'Too many requests'
@@ -23,20 +28,18 @@ export const postBooking = createRoute({
   tags,
 });
 
-export const getBooking = createRoute({
-  path: '/image/:src',
+export const getStudents = createRoute({
+  path: '/students',
   method: 'get',
   request: {
-    // body: jsonContentRequired(optimizeImageSchema, 'The image to optimize'),
-    // params: getImageParamsSchema,
-    // query: getImageQuerySchema,
+    query: paginationSchema,
   },
   responses: {
-    // [OK]: jsonContent(optimizeImageResponseSchema, 'The image was optimized'),
-    [NOT_FOUND]: jsonContent(notFoundSchema, 'The image was not found'),
+    [OK]: jsonContent(selectStudentSchema, 'The students'),
+    [NOT_FOUND]: jsonContent(notFoundSchema, 'The students were not found'),
   },
   tags,
 });
 
-export type PostBooking = typeof postBooking;
-export type GetBooking = typeof getBooking;
+export type PostStudent = typeof createStudent;
+export type GetStudents = typeof getStudents;

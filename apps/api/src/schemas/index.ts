@@ -1,9 +1,9 @@
 import { object, string } from 'zod';
 
-export const notFoundSchema = object({
+const baseSchema = object({
   message: string(),
 });
 
-export const tooManyRequestsSchema = object({
-  message: string(),
-});
+export const notFoundSchema = baseSchema;
+
+export const tooManyRequestsSchema = baseSchema;

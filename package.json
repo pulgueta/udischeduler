@@ -46,6 +46,7 @@
   "trustedDependencies": [
     "@biomejs/biome",
     "@sentry/cli",
+    "@swc/core",
     "bufferutil",
     "core-js",
     "core-js-pure",
