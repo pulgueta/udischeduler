@@ -35,8 +35,12 @@ export const student = pgTable(
   ]
 );
 
-export const studentRelations = relations(student, ({ many }) => ({
+export const studentRelations = relations(student, ({ many, one }) => ({
   bookings: many(booking),
+  user: one(user, {
+    fields: [student.userId],
+    references: [user.id],
+  }),
 }));
 
 export const createStudentSchema = createInsertSchema(student, {

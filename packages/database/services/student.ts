@@ -153,6 +153,11 @@ export async function getStudents(
   try {
     const students = await database.query.student.findMany({
       with: {
+        user: {
+          columns: {
+            role: true,
+          },
+        },
         bookings: {
           extras: () => ({
             bookingsCount: database.$count(booking).as('bookings_count'),
