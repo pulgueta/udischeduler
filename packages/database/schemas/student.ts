@@ -7,10 +7,10 @@ import {
 } from 'drizzle-zod';
 import { ulid } from 'ulid';
 import type { TypeOf } from 'zod';
-import { string } from 'zod';
+import { number, string } from 'zod';
 
 import { user } from './auth';
-import { booking } from './booking';
+import { booking, selectBooking } from './booking';
 
 export const student = pgTable(
   'student',
@@ -35,6 +35,10 @@ export const student = pgTable(
   ]
 );
 
+export const studentRelations = relations(student, ({ many }) => ({
+  bookings: many(booking),
+}));
+
 export const createStudentSchema = createInsertSchema(student, {
   email: string({ message: 'El correo electrónico es requerido' }).email(
     'El correo electrónico debe ser el de la universidad'
@@ -53,16 +57,24 @@ export const selectStudentSchema = createSelectSchema(student).omit({
   updatedAt: true,
 });
 
+export const selectStudentWithBookingsSchema = selectStudentSchema
+  .extend({
+    bookings: selectBooking.array(),
+    studentsCount: number().min(0),
+  })
+  .array();
+
 export const updateStudentSchema = createUpdateSchema(student).omit({
   createdAt: true,
   updatedAt: true,
   id: true,
 });
 
+export const studentKeys = selectStudentSchema.omit({ createdAt: true });
+
 export type CreateStudent = TypeOf<typeof createStudentSchema>;
 export type Student = TypeOf<typeof selectStudentSchema>;
+export type StudentWithBookings = TypeOf<
+  typeof selectStudentWithBookingsSchema
+>;
 export type UpdateStudent = TypeOf<typeof updateStudentSchema>;
-
-export const studentRelations = relations(student, ({ many }) => ({
-  bookings: many(booking),
-}));

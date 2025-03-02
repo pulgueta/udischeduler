@@ -1,14 +1,16 @@
 {
   "name": "@udi/api",
   "version": "0.0.0",
+  "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun run --hot src/index.ts",
+    "dev": "bun run --hot src/index.ts --env-file=.env",
     "version": "changeset version"
   },
   "dependencies": {
     "@hono/zod-openapi": "^0.18.4",
     "@scalar/hono-api-reference": "^0.5.175",
+    "@t3-oss/env-core": "^0.12.0",
     "hono": "^4.7.2",
     "stoker": "^1.4.2"
   },

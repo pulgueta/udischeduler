@@ -3,7 +3,11 @@
     "strict": true,
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
+    "module": "Preserve",
+    "moduleResolution": "bundler",
+    "allowJs": false,
     "resolveJsonModule": true,
+    "verbatimModuleSyntax": true,
     "paths": {
       "@udi/*": ["../../packages/*"],
       "@/*": ["./src/*"]

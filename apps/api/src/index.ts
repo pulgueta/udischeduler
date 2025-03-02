@@ -1,9 +1,11 @@
-import { studentRouter } from '@/routes/booking';
+import { keys } from '@/keys';
+import { authRouter } from '@/routes/auth';
 import { createApp } from '@/routes/router';
+import { studentRouter } from '@/routes/students';
 
 const app = createApp();
 
-const routes = [studentRouter] as const;
+const routes = [studentRouter, authRouter] as const;
 
 for (const route of routes) {
   app.route('/', route);
@@ -11,4 +13,7 @@ for (const route of routes) {
 
 export type UDI = typeof routes;
 
-export default app;
+export default {
+  port: keys.PORT,
+  fetch: app.fetch,
+};

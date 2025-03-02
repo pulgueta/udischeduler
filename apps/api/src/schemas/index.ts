@@ -7,3 +7,5 @@ const baseSchema = object({
 export const notFoundSchema = baseSchema;
 
 export const tooManyRequestsSchema = baseSchema;
+
+export const unauthorizedSchema = baseSchema;

@@ -1,6 +1,7 @@
 import { relations } from 'drizzle-orm';
 import { pgTable, uniqueIndex } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import type { TypeOf } from 'zod';
 
 import { user } from './auth';
 
@@ -24,7 +25,9 @@ export const booking = pgTable(
 );
 
 export const createBooking = createInsertSchema(booking);
-export const selectBooking = createSelectSchema(booking);
+export const selectBooking = createSelectSchema(booking).omit({
+  updatedAt: true,
+});
 
 export const bookingRelations = relations(booking, ({ one }) => ({
   user: one(user, {
@@ -32,3 +35,6 @@ export const bookingRelations = relations(booking, ({ one }) => ({
     references: [user.id],
   }),
 }));
+
+export type CreateBooking = TypeOf<typeof createBooking>;
+export type Booking = TypeOf<typeof selectBooking>;
