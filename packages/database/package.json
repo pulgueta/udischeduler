@@ -10,19 +10,18 @@
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
     "@t3-oss/env-nextjs": "^0.12.0",
-    "drizzle-orm": "^0.39.3",
+    "drizzle-orm": "^0.40.0",
     "drizzle-zod": "^0.7.0",
-    "server-only": "^0.0.1",
     "ulid": "^2.3.0",
-    "undici": "^7.3.0",
-    "ws": "^8.18.0",
+    "undici": "^7.4.0",
+    "ws": "^8.18.1",
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/ws": "^8.5.14",
     "@udi/typescript-config": "*",
     "bufferutil": "^4.0.9",
-    "drizzle-kit": "^0.30.4",
-    "typescript": "^5.7.3"
+    "drizzle-kit": "^0.30.5",
+    "typescript": "^5.8.2"
   }
 }

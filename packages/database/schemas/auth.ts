@@ -1,23 +1,26 @@
-import {
-  boolean,
-  integer,
-  pgTable,
-  text,
-  timestamp,
-} from 'drizzle-orm/pg-core';
+import { pgEnum, pgTable } from 'drizzle-orm/pg-core';
 
-import { timestamps } from '.';
+export const roleEnum = pgEnum('role', [
+  'admin',
+  'student',
+  'teacher',
+  'technician',
+]);
 
-export const user = pgTable('user', {
+export const user = pgTable('user', ({ text, timestamp, boolean }) => ({
   id: text().primaryKey(),
   name: text().notNull(),
   email: text().notNull().unique(),
   emailVerified: boolean().notNull(),
   image: text(),
-  ...timestamps,
-});
+  role: roleEnum().default('student'),
+  createdAt: timestamp().defaultNow(),
+  updatedAt: timestamp()
+    .defaultNow()
+    .$onUpdateFn(() => new Date()),
+}));
 
-export const session = pgTable('session', {
+export const session = pgTable('session', ({ text, timestamp }) => ({
   id: text().primaryKey(),
   expiresAt: timestamp().notNull(),
   token: text().notNull().unique(),
@@ -26,10 +29,13 @@ export const session = pgTable('session', {
   userId: text()
     .notNull()
     .references(() => user.id, { onDelete: 'cascade' }),
-  ...timestamps,
-});
+  createdAt: timestamp().defaultNow(),
+  updatedAt: timestamp()
+    .defaultNow()
+    .$onUpdateFn(() => new Date()),
+}));
 
-export const account = pgTable('account', {
+export const account = pgTable('account', ({ text, timestamp }) => ({
   id: text().primaryKey(),
   accountId: text().notNull(),
   providerId: text().notNull(),
@@ -43,28 +49,40 @@ export const account = pgTable('account', {
   refreshTokenExpiresAt: timestamp(),
   scope: text(),
   password: text(),
-  ...timestamps,
-});
+  createdAt: timestamp().defaultNow(),
+  updatedAt: timestamp()
+    .defaultNow()
+    .$onUpdateFn(() => new Date()),
+}));
 
-export const verification = pgTable('verification', {
+export const verification = pgTable('verification', ({ text, timestamp }) => ({
   id: text().primaryKey(),
   identifier: text().notNull(),
   value: text().notNull(),
   expiresAt: timestamp().notNull(),
-  ...timestamps,
-});
+  createdAt: timestamp().defaultNow(),
+  updatedAt: timestamp()
+    .defaultNow()
+    .$onUpdateFn(() => new Date()),
+}));
 
-export const passkey = pgTable('passkey', {
-  id: text().primaryKey(),
-  name: text(),
-  publicKey: text().notNull(),
-  userId: text()
-    .notNull()
-    .references(() => user.id, { onDelete: 'cascade' }),
-  credentialID: text().notNull(),
-  counter: integer().notNull(),
-  deviceType: text().notNull(),
-  backedUp: boolean().notNull(),
-  transports: text(),
-  ...timestamps,
-});
+export const passkey = pgTable(
+  'passkey',
+  ({ text, timestamp, boolean, integer }) => ({
+    id: text().primaryKey(),
+    name: text(),
+    publicKey: text().notNull(),
+    userId: text()
+      .notNull()
+      .references(() => user.id, { onDelete: 'cascade' }),
+    credentialID: text().notNull(),
+    counter: integer().notNull(),
+    deviceType: text().notNull(),
+    backedUp: boolean().notNull(),
+    transports: text(),
+    createdAt: timestamp().defaultNow(),
+    updatedAt: timestamp()
+      .defaultNow()
+      .$onUpdateFn(() => new Date()),
+  })
+);

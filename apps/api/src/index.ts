@@ -1,9 +1,19 @@
-import { Hono } from 'hono';
+import { keys } from '@/keys';
+import { authRouter } from '@/routes/auth';
+import { createApp } from '@/routes/router';
+import { studentRouter } from '@/routes/students';
 
-const app = new Hono();
+const app = createApp();
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!');
-});
+const routes = [studentRouter, authRouter] as const;
 
-export default app;
+for (const route of routes) {
+  app.route('/', route);
+}
+
+export type UDI = typeof routes;
+
+export default {
+  port: keys.PORT,
+  fetch: app.fetch,
+};

@@ -125,10 +125,15 @@ export class ErrorHandler {
     return appError;
   }
 
-  static handleKnownError(message: string, error?: AppError) {
+  static handleKnown(
+    message: string,
+    code?: AppError['code'],
+    metadata?: AppError
+  ) {
     const appError = AppError.fromError({
-      ...error,
+      ...metadata,
       message,
+      code,
     });
 
     // TODO: Replace with Sentry

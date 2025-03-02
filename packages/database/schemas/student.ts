@@ -1,5 +1,5 @@
 import { like, relations } from 'drizzle-orm';
-import { check, pgTable, text, uniqueIndex } from 'drizzle-orm/pg-core';
+import { check, pgTable, uniqueIndex } from 'drizzle-orm/pg-core';
 import {
   createInsertSchema,
   createSelectSchema,
@@ -7,15 +7,14 @@ import {
 } from 'drizzle-zod';
 import { ulid } from 'ulid';
 import type { TypeOf } from 'zod';
-import { string } from 'zod';
+import { number, string } from 'zod';
 
-import { timestamps } from '.';
 import { user } from './auth';
-import { booking } from './booking';
+import { booking, selectBooking } from './booking';
 
 export const student = pgTable(
   'student',
-  {
+  ({ text, timestamp }) => ({
     id: text()
       .primaryKey()
       .$defaultFn(() => ulid()),
@@ -24,14 +23,25 @@ export const student = pgTable(
       .references(() => user.id, { onDelete: 'cascade' }),
     name: text().notNull(),
     email: text().notNull().unique(),
-    ...timestamps,
-  },
+    createdAt: timestamp().defaultNow(),
+    updatedAt: timestamp()
+      .defaultNow()
+      .$onUpdateFn(() => new Date()),
+  }),
   (t) => [
     check('student_email_check', like(t.email, '%@udi.edu.co%')),
     uniqueIndex('student_id_idx').on(t.id),
     uniqueIndex('student_user_id_idx').on(t.userId),
   ]
 );
+
+export const studentRelations = relations(student, ({ many, one }) => ({
+  bookings: many(booking),
+  user: one(user, {
+    fields: [student.userId],
+    references: [user.id],
+  }),
+}));
 
 export const createStudentSchema = createInsertSchema(student, {
   email: string({ message: 'El correo electrónico es requerido' }).email(
@@ -47,9 +57,16 @@ export const createStudentSchema = createInsertSchema(student, {
   id: true,
 });
 
-export const selectUserSchema = createSelectSchema(student).omit({
+export const selectStudentSchema = createSelectSchema(student).omit({
   updatedAt: true,
 });
+
+export const selectStudentWithBookingsSchema = selectStudentSchema
+  .extend({
+    bookings: selectBooking.array(),
+    studentsCount: number().min(0),
+  })
+  .array();
 
 export const updateStudentSchema = createUpdateSchema(student).omit({
   createdAt: true,
@@ -57,10 +74,11 @@ export const updateStudentSchema = createUpdateSchema(student).omit({
   id: true,
 });
 
-export type CreateStudent = TypeOf<typeof createStudentSchema>;
-export type Student = TypeOf<typeof selectUserSchema>;
-export type UpdateStudent = TypeOf<typeof updateStudentSchema>;
+export const studentKeys = selectStudentSchema.omit({ createdAt: true });
 
-export const studentRelations = relations(student, ({ many }) => ({
-  bookings: many(booking),
-}));
+export type CreateStudent = TypeOf<typeof createStudentSchema>;
+export type Student = TypeOf<typeof selectStudentSchema>;
+export type StudentWithBookings = TypeOf<
+  typeof selectStudentWithBookingsSchema
+>;
+export type UpdateStudent = TypeOf<typeof updateStudentSchema>;

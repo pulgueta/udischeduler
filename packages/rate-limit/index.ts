@@ -3,6 +3,9 @@ import { Redis } from '@upstash/redis';
 
 import { keys } from './keys.js';
 
+export const requests = 10;
+export const intervalInSeconds = 10;
+
 const redis = new Redis({
   url: keys.UPSTASH_REDIS_REST_URL,
   token: keys.UPSTASH_REDIS_REST_TOKEN,
@@ -10,7 +13,7 @@ const redis = new Redis({
 
 const ratelimitInstance = new Ratelimit({
   redis,
-  limiter: Ratelimit.slidingWindow(10, '10s'),
+  limiter: Ratelimit.slidingWindow(10, `${intervalInSeconds}s`),
 });
 
 export async function ratelimit(key: string) {

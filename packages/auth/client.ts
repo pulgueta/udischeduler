@@ -1,7 +1,13 @@
-import { passkeyClient } from 'better-auth/plugins/passkey';
+import { oneTapClient, passkeyClient } from 'better-auth/client/plugins';
 import { createAuthClient } from 'better-auth/react';
 
-export const { signIn, signOut, signUp, useListPasskeys, useSession } =
+import { keys } from '@/keys';
+
+export const { signIn, signOut, signUp, useListPasskeys, useSession, oneTap } =
   createAuthClient({
-    plugins: [passkeyClient()],
+    baseURL: keys.PUBLIC_BASE_URL,
+    plugins: [
+      passkeyClient(),
+      oneTapClient({ clientId: keys.PUBLIC_GOOGLE_CLIENT_ID }),
+    ],
   });

@@ -1,7 +1,10 @@
 {
   "extends": "@udi/typescript-config/nextjs.json",
   "compilerOptions": {
-    "baseUrl": "."
+    "baseUrl": ".",
+    "declaration": false,
+    "composite": false,
+    "declarationMap": false
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
