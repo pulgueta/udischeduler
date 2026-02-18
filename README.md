@@ -1,39 +1,29 @@
-# UDIScheduler
+# LabBook - University Computer Lab Booking System
 
-This project was created as a classroom project at UDI. The goal of this repository is to be adopted by the university itself to manage the scheduling of computing rooms. This project also aims to be a tool for students to learn about software development and project management in future classes.
+This is a project built with [Converge](https://converge.run) using [Convex](https://convex.dev) as its backend.
+ You can find docs about Converge with useful information like how to deploy to production [here](https://converge.run/docs).
 
-## Structure
+This project is connected to the Convex deployment named [`gregarious-minnow-315`](https://dashboard.convex.dev/d/gregarious-minnow-315).
 
-The project is divided into the `packages` and `apps` folders.
+## Project structure
 
-* The [`packages`](./packages/README.md) folder contains shareable code that can be used across all the apps to avoid code duplication.
-* The [`apps`](./apps/README.md) folder contains the applications that will be used by the end-users, like frontend and backend.
+The frontend code is in the `app` directory and is built with [Vite](https://vitejs.dev/).
 
-## Getting started
+The backend code is in the `convex` directory.
 
-You must have the following tools installed in order to run this project correctly:
+`npm run dev` will start the frontend and backend servers.
 
-* [Bun](https://bun.sh/)
-* [Docker](https://www.docker.com/)
+## App authentication
 
-### Steps
-<!-- WIP: Check for future steps and add them -->
+Chef apps use [Convex Auth](https://auth.convex.dev/) with Anonymous auth for easy sign in. You may wish to change this before deploying your app.
 
-1. Clone this repository
+## Developing and deploying your app
 
-```bash
-git clone https://github.com/pulgueta/udischeduler
-```
+Check out the [Convex docs](https://docs.convex.dev/) for more information on how to develop with Convex.
+* If you're new to Convex, the [Overview](https://docs.convex.dev/understanding/) is a good place to start
+* Check out the [Hosting and Deployment](https://docs.convex.dev/production/) docs for how to deploy your app
+* Read the [Best Practices](https://docs.convex.dev/understanding/best-practices/) guide for tips on how to improve you app further
 
-2. Install the dependencies
+## HTTP API
 
-```bash
-cd udischeduler
-bun install
-```
-
-3. Run the project
-
-```bash
-bun dev
-```
+User-defined http routes are defined in the `convex/router.ts` file. We split these routes into a separate file from `convex/http.ts` to allow us to prevent the LLM from modifying the authentication routes.
