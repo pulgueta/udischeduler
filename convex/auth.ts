@@ -1,22 +1,46 @@
-import { convexAuth, getAuthUserId } from "@convex-dev/auth/server";
-import { Password } from "@convex-dev/auth/providers/Password";
-import { Anonymous } from "@convex-dev/auth/providers/Anonymous";
-import { query } from "./_generated/server";
+import type { AuthFunctions, GenericCtx } from "@convex-dev/better-auth";
+import { createClient } from "@convex-dev/better-auth";
+import { convex } from "@convex-dev/better-auth/plugins";
+import { betterAuth } from "better-auth";
 
-export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
-  providers: [Password, Anonymous],
+import { components, internal } from "./_generated/api";
+import type { DataModel } from "./_generated/dataModel";
+import authConfig from "./auth.config";
+
+const siteUrl = process.env.SITE_URL ?? "";
+const APP_NAME = "UDIScheduler";
+
+const authFunctions: AuthFunctions = internal.auth;
+
+export const authComponent = createClient<DataModel>(components.betterAuth, {
+  authFunctions,
+  triggers: {},
 });
 
-export const loggedInUser = query({
-  handler: async (ctx) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) {
-      return null;
-    }
-    const user = await ctx.db.get(userId);
-    if (!user) {
-      return null;
-    }
-    return user;
-  },
-});
+export const createAuth = (ctx: GenericCtx<DataModel>) => {
+  return betterAuth({
+    appName: APP_NAME,
+    baseURL: siteUrl,
+    database: authComponent.adapter(ctx),
+    emailAndPassword: {
+      enabled: true,
+    },
+    telemetry: {
+      enabled: false,
+    },
+    rateLimit: {
+      storage: "memory",
+    },
+    socialProviders: {
+      google: {
+        clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+        enabled: true,
+      },
+    },
+    plugins: [convex({ authConfig })],
+  });
+};
+
+export const { onCreate, onUpdate, onDelete } = authComponent.triggersApi();
+export const { getAuthUser } = authComponent.clientApi();

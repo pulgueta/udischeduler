@@ -1,31 +1,26 @@
-name: Run Biome
+name: Run Biome for linting and formatting
 
 on:
   pull_request:
-  workflow_call:
-    inputs:
-      GH_TOKEN:
-        required: false
-        type: string
 
 concurrency:
-  group: ${{ github.workflow }}-format-${{ github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
-  code-quality:
+  biome:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout
+      - name: Checkout
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Setup environment
         uses: ./.github/setup
-  
-      - name: Run format
-        run: bun format
 
-      - name: Run lint
-        run: bun lint
+      - name: Lint
+        run: pnpm lint
+
+      - name: Format
+        run: pnpm format
