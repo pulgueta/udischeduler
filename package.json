@@ -9,9 +9,12 @@
     "dev:convex": "convex dev",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest run",
     "lint": "biome lint --write --unsafe .",
-    "format": "biome format --write ."
+    "format": "biome format --write .",
+    "test": "vitest",
+    "test:once": "vitest run",
+    "test:debug": "vitest --inspect-brk --no-file-parallelism",
+    "test:cov": "vitest run --coverage --coverage.reporter=text"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
@@ -47,6 +50,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.5",
+    "@edge-runtime/vm": "^5.0.0",
     "@tanstack/devtools-vite": "^0.5.3",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.2",
@@ -54,7 +58,9 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.4",
+    "@vitest/coverage-v8": "4.0.18",
     "concurrently": "^9.2.1",
+    "convex-test": "^0.0.41",
     "jsdom": "^28.1.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.1",

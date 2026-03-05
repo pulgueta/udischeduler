@@ -14,19 +14,16 @@
     "enabled": true,
     "indentStyle": "space",
     "indentWidth": 2,
-    "includes": ["src/**/*.ts", "src/**/*.tsx", "convex/**/*.ts"]
+    "includes": [
+      "src/**/*.ts",
+      "src/**/*.tsx",
+      "convex/**/*.ts",
+      "vite.config.ts",
+      "vitest.config.ts",
+      "!convex/_generated/**/*.ts",
+      "!src/routeTree.gen.ts"
+    ]
   },
-  "overrides": [
-    {
-      "includes": ["src/routeTree.gen.ts", "convex/_generated/**/*.ts"],
-      "linter": {
-        "enabled": false
-      },
-      "formatter": {
-        "enabled": false
-      }
-    }
-  ],
   "linter": {
     "enabled": true,
     "rules": {

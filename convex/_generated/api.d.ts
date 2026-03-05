@@ -9,7 +9,12 @@
  */
 
 import type * as auth from "../auth.js";
+import type * as booking from "../booking.js";
+import type * as campus from "../campus.js";
+import type * as http from "../http.js";
 import type * as index from "../index.js";
+import type * as lab from "../lab.js";
+import type * as ratelimiter from "../ratelimiter.js";
 
 import type {
   ApiFromModules,
@@ -19,7 +24,12 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
+  booking: typeof booking;
+  campus: typeof campus;
+  http: typeof http;
   index: typeof index;
+  lab: typeof lab;
+  ratelimiter: typeof ratelimiter;
 }>;
 
 /**
