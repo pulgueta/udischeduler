@@ -18,12 +18,16 @@ export const authComponent = createClient<DataModel>(components.betterAuth, {
   authFunctions,
   triggers: {
     user: {
-      onCreate: async (_ctx, doc) => {
+      onCreate: async (ctx, doc) => {
         const [_tail, domain] = doc.email.split("@");
 
         if (domain !== config.validDomain) {
           throw new ConvexError(config.errors.invalidEmail);
         }
+
+        await ctx.db.insert("users", {
+          userId: doc._id,
+        });
       },
     },
   },

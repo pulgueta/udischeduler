@@ -19,5 +19,10 @@ export const config = {
       code: "overlaps",
       message: "Ya hay una reserva para este laboratorio en el mismo horario.",
     },
+    rateLimitExceeded: {
+      code: "rate_limit_exceeded",
+      message:
+        "Has excedido el límite de solicitudes. Intenta nuevamente mas tarde.",
+    },
   },
 };

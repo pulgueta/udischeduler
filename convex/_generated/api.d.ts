@@ -14,6 +14,7 @@ import type * as campus from "../campus.js";
 import type * as http from "../http.js";
 import type * as index from "../index.js";
 import type * as lab from "../lab.js";
+import type * as ratelimiter from "../ratelimiter.js";
 
 import type {
   ApiFromModules,
@@ -28,6 +29,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   index: typeof index;
   lab: typeof lab;
+  ratelimiter: typeof ratelimiter;
 }>;
 
 /**
