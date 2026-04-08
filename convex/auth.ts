@@ -1,46 +1,31 @@
-import type { AuthFunctions, GenericCtx } from "@convex-dev/better-auth";
-import { createClient } from "@convex-dev/better-auth";
-import { convex } from "@convex-dev/better-auth/plugins";
-import { betterAuth } from "better-auth";
+import type { MutationCtx, QueryCtx } from "./_generated/server";
 
-import { components, internal } from "./_generated/api";
-import type { DataModel } from "./_generated/dataModel";
-import authConfig from "./auth.config";
+export async function getCurrentUser(ctx: QueryCtx | MutationCtx) {
+  const identity = await ctx.auth.getUserIdentity();
 
-const siteUrl = process.env.SITE_URL ?? "";
-const APP_NAME = "UDIScheduler";
+  if (!identity) return null;
 
-const authFunctions: AuthFunctions = internal.auth;
+  return ctx.db
+    .query("users")
+    .withIndex("by_tokenIdentifier", (q) =>
+      q.eq("tokenIdentifier", identity.tokenIdentifier),
+    )
+    .first();
+}
 
-export const authComponent = createClient<DataModel>(components.betterAuth, {
-  authFunctions,
-  triggers: {},
-});
+export async function requireUser(ctx: QueryCtx | MutationCtx) {
+  const user = await getCurrentUser(ctx);
+  if (!user) throw new Error("Not authenticated");
+  return user;
+}
 
-export const createAuth = (ctx: GenericCtx<DataModel>) => {
-  return betterAuth({
-    appName: APP_NAME,
-    baseURL: siteUrl,
-    database: authComponent.adapter(ctx),
-    emailAndPassword: {
-      enabled: true,
-    },
-    telemetry: {
-      enabled: false,
-    },
-    rateLimit: {
-      storage: "memory",
-    },
-    socialProviders: {
-      google: {
-        clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-        enabled: true,
-      },
-    },
-    plugins: [convex({ authConfig })],
-  });
-};
-
-export const { onCreate, onUpdate, onDelete } = authComponent.triggersApi();
-export const { getAuthUser } = authComponent.clientApi();
+export async function requireRole(
+  ctx: QueryCtx | MutationCtx,
+  roles: Array<"student" | "professor" | "support" | "admin">,
+) {
+  const user = await requireUser(ctx);
+  if (!user.role || !roles.includes(user.role)) {
+    throw new Error("Insufficient permissions");
+  }
+  return user;
+}

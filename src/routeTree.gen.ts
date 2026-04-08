@@ -9,38 +9,204 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SignInRouteImport } from './routes/sign-in'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as OffDomainRouteImport } from './routes/off-domain'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedCampusesRouteImport } from './routes/_authenticated/campuses'
+import { Route as AuthenticatedBookingsRouteImport } from './routes/_authenticated/bookings'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedCampusesCampusIdRouteImport } from './routes/_authenticated/campuses.$campusId'
+import { Route as AuthenticatedBookingsNewRouteImport } from './routes/_authenticated/bookings.new'
+import { Route as AuthenticatedCampusesCampusIdLabsLabIdRouteImport } from './routes/_authenticated/campuses.$campusId.labs.$labId'
 
+const SignInRoute = SignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OffDomainRoute = OffDomainRouteImport.update({
+  id: '/off-domain',
+  path: '/off-domain',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedCampusesRoute = AuthenticatedCampusesRouteImport.update({
+  id: '/campuses',
+  path: '/campuses',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedBookingsRoute = AuthenticatedBookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedCampusesCampusIdRoute =
+  AuthenticatedCampusesCampusIdRouteImport.update({
+    id: '/$campusId',
+    path: '/$campusId',
+    getParentRoute: () => AuthenticatedCampusesRoute,
+  } as any)
+const AuthenticatedBookingsNewRoute =
+  AuthenticatedBookingsNewRouteImport.update({
+    id: '/new',
+    path: '/new',
+    getParentRoute: () => AuthenticatedBookingsRoute,
+  } as any)
+const AuthenticatedCampusesCampusIdLabsLabIdRoute =
+  AuthenticatedCampusesCampusIdLabsLabIdRouteImport.update({
+    id: '/labs/$labId',
+    path: '/labs/$labId',
+    getParentRoute: () => AuthenticatedCampusesCampusIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/off-domain': typeof OffDomainRoute
+  '/onboarding': typeof OnboardingRoute
+  '/sign-in': typeof SignInRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/bookings': typeof AuthenticatedBookingsRouteWithChildren
+  '/campuses': typeof AuthenticatedCampusesRouteWithChildren
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/bookings/new': typeof AuthenticatedBookingsNewRoute
+  '/campuses/$campusId': typeof AuthenticatedCampusesCampusIdRouteWithChildren
+  '/campuses/$campusId/labs/$labId': typeof AuthenticatedCampusesCampusIdLabsLabIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/off-domain': typeof OffDomainRoute
+  '/onboarding': typeof OnboardingRoute
+  '/sign-in': typeof SignInRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/bookings': typeof AuthenticatedBookingsRouteWithChildren
+  '/campuses': typeof AuthenticatedCampusesRouteWithChildren
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/bookings/new': typeof AuthenticatedBookingsNewRoute
+  '/campuses/$campusId': typeof AuthenticatedCampusesCampusIdRouteWithChildren
+  '/campuses/$campusId/labs/$labId': typeof AuthenticatedCampusesCampusIdLabsLabIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/off-domain': typeof OffDomainRoute
+  '/onboarding': typeof OnboardingRoute
+  '/sign-in': typeof SignInRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/bookings': typeof AuthenticatedBookingsRouteWithChildren
+  '/_authenticated/campuses': typeof AuthenticatedCampusesRouteWithChildren
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/bookings/new': typeof AuthenticatedBookingsNewRoute
+  '/_authenticated/campuses/$campusId': typeof AuthenticatedCampusesCampusIdRouteWithChildren
+  '/_authenticated/campuses/$campusId/labs/$labId': typeof AuthenticatedCampusesCampusIdLabsLabIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/off-domain'
+    | '/onboarding'
+    | '/sign-in'
+    | '/admin'
+    | '/bookings'
+    | '/campuses'
+    | '/settings'
+    | '/bookings/new'
+    | '/campuses/$campusId'
+    | '/campuses/$campusId/labs/$labId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/off-domain'
+    | '/onboarding'
+    | '/sign-in'
+    | '/admin'
+    | '/bookings'
+    | '/campuses'
+    | '/settings'
+    | '/bookings/new'
+    | '/campuses/$campusId'
+    | '/campuses/$campusId/labs/$labId'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/off-domain'
+    | '/onboarding'
+    | '/sign-in'
+    | '/_authenticated/admin'
+    | '/_authenticated/bookings'
+    | '/_authenticated/campuses'
+    | '/_authenticated/settings'
+    | '/_authenticated/bookings/new'
+    | '/_authenticated/campuses/$campusId'
+    | '/_authenticated/campuses/$campusId/labs/$labId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  OffDomainRoute: typeof OffDomainRoute
+  OnboardingRoute: typeof OnboardingRoute
+  SignInRoute: typeof SignInRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sign-in': {
+      id: '/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof SignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/off-domain': {
+      id: '/off-domain'
+      path: '/off-domain'
+      fullPath: '/off-domain'
+      preLoaderRoute: typeof OffDomainRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,21 +214,125 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/campuses': {
+      id: '/_authenticated/campuses'
+      path: '/campuses'
+      fullPath: '/campuses'
+      preLoaderRoute: typeof AuthenticatedCampusesRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/bookings': {
+      id: '/_authenticated/bookings'
+      path: '/bookings'
+      fullPath: '/bookings'
+      preLoaderRoute: typeof AuthenticatedBookingsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/campuses/$campusId': {
+      id: '/_authenticated/campuses/$campusId'
+      path: '/$campusId'
+      fullPath: '/campuses/$campusId'
+      preLoaderRoute: typeof AuthenticatedCampusesCampusIdRouteImport
+      parentRoute: typeof AuthenticatedCampusesRoute
+    }
+    '/_authenticated/bookings/new': {
+      id: '/_authenticated/bookings/new'
+      path: '/new'
+      fullPath: '/bookings/new'
+      preLoaderRoute: typeof AuthenticatedBookingsNewRouteImport
+      parentRoute: typeof AuthenticatedBookingsRoute
+    }
+    '/_authenticated/campuses/$campusId/labs/$labId': {
+      id: '/_authenticated/campuses/$campusId/labs/$labId'
+      path: '/labs/$labId'
+      fullPath: '/campuses/$campusId/labs/$labId'
+      preLoaderRoute: typeof AuthenticatedCampusesCampusIdLabsLabIdRouteImport
+      parentRoute: typeof AuthenticatedCampusesCampusIdRoute
+    }
   }
 }
 
+interface AuthenticatedBookingsRouteChildren {
+  AuthenticatedBookingsNewRoute: typeof AuthenticatedBookingsNewRoute
+}
+
+const AuthenticatedBookingsRouteChildren: AuthenticatedBookingsRouteChildren = {
+  AuthenticatedBookingsNewRoute: AuthenticatedBookingsNewRoute,
+}
+
+const AuthenticatedBookingsRouteWithChildren =
+  AuthenticatedBookingsRoute._addFileChildren(
+    AuthenticatedBookingsRouteChildren,
+  )
+
+interface AuthenticatedCampusesCampusIdRouteChildren {
+  AuthenticatedCampusesCampusIdLabsLabIdRoute: typeof AuthenticatedCampusesCampusIdLabsLabIdRoute
+}
+
+const AuthenticatedCampusesCampusIdRouteChildren: AuthenticatedCampusesCampusIdRouteChildren =
+  {
+    AuthenticatedCampusesCampusIdLabsLabIdRoute:
+      AuthenticatedCampusesCampusIdLabsLabIdRoute,
+  }
+
+const AuthenticatedCampusesCampusIdRouteWithChildren =
+  AuthenticatedCampusesCampusIdRoute._addFileChildren(
+    AuthenticatedCampusesCampusIdRouteChildren,
+  )
+
+interface AuthenticatedCampusesRouteChildren {
+  AuthenticatedCampusesCampusIdRoute: typeof AuthenticatedCampusesCampusIdRouteWithChildren
+}
+
+const AuthenticatedCampusesRouteChildren: AuthenticatedCampusesRouteChildren = {
+  AuthenticatedCampusesCampusIdRoute:
+    AuthenticatedCampusesCampusIdRouteWithChildren,
+}
+
+const AuthenticatedCampusesRouteWithChildren =
+  AuthenticatedCampusesRoute._addFileChildren(
+    AuthenticatedCampusesRouteChildren,
+  )
+
+interface AuthenticatedRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedBookingsRoute: typeof AuthenticatedBookingsRouteWithChildren
+  AuthenticatedCampusesRoute: typeof AuthenticatedCampusesRouteWithChildren
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedBookingsRoute: AuthenticatedBookingsRouteWithChildren,
+  AuthenticatedCampusesRoute: AuthenticatedCampusesRouteWithChildren,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  OffDomainRoute: OffDomainRoute,
+  OnboardingRoute: OnboardingRoute,
+  SignInRoute: SignInRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
