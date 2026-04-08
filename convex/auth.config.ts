@@ -1,5 +1,9 @@
-import { getAuthConfigProvider } from "@convex-dev/better-auth/auth-config";
-
 export default {
-  providers: [getAuthConfigProvider()],
+  providers: [
+    {
+      // @ts-nocheck - process.env is not defined in the browser
+      domain: process.env.CLERK_FRONTEND_API_URL,
+      applicationID: "convex",
+    },
+  ],
 };

@@ -4,14 +4,18 @@ import { describe, expect, it, vi } from "vitest";
 import { api, internal } from "./_generated/api";
 import schema from "./schema";
 
+let mockUser: Record<string, unknown> | null = null;
+
 vi.mock("./auth", () => ({
-  getCurrentUser: vi.fn(),
-  authComponent: {},
-  createAuth: vi.fn(),
-  onCreate: vi.fn(),
-  onUpdate: vi.fn(),
-  onDelete: vi.fn(),
-  getAuthUser: vi.fn(),
+  getCurrentUser: vi.fn().mockImplementation(() => Promise.resolve(mockUser)),
+  requireUser: vi.fn().mockImplementation(() => {
+    if (!mockUser) return Promise.reject(new Error("Not authenticated"));
+    return Promise.resolve(mockUser);
+  }),
+  requireRole: vi.fn().mockImplementation(() => {
+    if (!mockUser) return Promise.reject(new Error("Not authenticated"));
+    return Promise.resolve(mockUser);
+  }),
 }));
 
 // Rate limiter always succeeds in tests
@@ -31,12 +35,11 @@ const asCampusId = (id: string): CampusId => id as CampusId;
 const asLabId = (id: string): LabId => id as LabId;
 const asBookingId = (id: string): BookingId => id as BookingId;
 
-async function setAuthUser(user: Record<string, unknown> | null) {
-  const { getCurrentUser } = await import("./auth");
-  vi.mocked(getCurrentUser).mockResolvedValue(user as never);
+function setAuthUser(user: Record<string, unknown> | null) {
+  mockUser = user;
 }
 
-const MOCK_USER = { _id: "user_abc123", email: "test@udi.edu.co" };
+const MOCK_USER = { _id: "user_abc123", email: "test@udi.edu.co", role: "admin" };
 const OTHER_USER = { _id: "user_xyz789", email: "other@udi.edu.co" };
 
 // Time slots (epoch ms)
@@ -70,24 +73,6 @@ async function seedCampusAndLab(t: ReturnType<typeof convexTest>) {
   return { campusId, labId };
 }
 
-/** Build booking args for api.booking.create */
-function makeBookingArgs(opts: {
-  labId: string;
-  campusId: string;
-  startDate: number;
-  endDate: number;
-  name?: string;
-}) {
-  return {
-    labId: asLabId(opts.labId),
-    campusId: asCampusId(opts.campusId),
-    startDate: opts.startDate,
-    endDate: opts.endDate,
-    name: opts.name,
-    userId: MOCK_USER._id,
-  };
-}
-
 /** Seed a booking at given time slot (requires auth to be set) */
 async function seedBooking(
   t: ReturnType<typeof convexTest>,
@@ -96,15 +81,19 @@ async function seedBooking(
   start = SLOT_A_START,
   end = SLOT_A_END,
 ) {
-  return t.mutation(
-    api.booking.create,
-    makeBookingArgs({ labId, campusId, startDate: start, endDate: end }),
-  );
+  return t.mutation(api.booking.create, {
+    labId: asLabId(labId),
+    campusId: asCampusId(campusId),
+    name: "Reserva de prueba",
+    startDate: start,
+    endDate: end,
+    participants: [],
+  });
 }
 
 describe("booking.create", () => {
   it("creates a booking when user is authenticated", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId, campusId } = await seedCampusAndLab(t);
 
@@ -123,27 +112,26 @@ describe("booking.create", () => {
   });
 
   it("throws when user is not authenticated", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId, campusId } = await seedCampusAndLab(t);
 
-    await setAuthUser(null);
+    setAuthUser(null);
 
     await expect(
-      t.mutation(
-        api.booking.create,
-        makeBookingArgs({
-          labId,
-          campusId,
-          startDate: SLOT_A_START,
-          endDate: SLOT_A_END,
-        }),
-      ),
+      t.mutation(api.booking.create, {
+        labId: asLabId(labId),
+        campusId: asCampusId(campusId),
+        name: "Reserva de prueba",
+        startDate: SLOT_A_START,
+        endDate: SLOT_A_END,
+        participants: [],
+      }),
     ).rejects.toThrowError();
   });
 
   it("throws when booking overlaps an existing booking", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId, campusId } = await seedCampusAndLab(t);
 
@@ -154,20 +142,19 @@ describe("booking.create", () => {
     const overlapEnd = SLOT_A_END + 1_800_000;
 
     await expect(
-      t.mutation(
-        api.booking.create,
-        makeBookingArgs({
-          labId,
-          campusId,
-          startDate: overlapStart,
-          endDate: overlapEnd,
-        }),
-      ),
+      t.mutation(api.booking.create, {
+        labId: asLabId(labId),
+        campusId: asCampusId(campusId),
+        name: "Reserva solapada",
+        startDate: overlapStart,
+        endDate: overlapEnd,
+        participants: [],
+      }),
     ).rejects.toThrowError();
   });
 
   it("allows bookings for the same lab at non-overlapping times", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId, campusId } = await seedCampusAndLab(t);
 
@@ -185,7 +172,7 @@ describe("booking.create", () => {
 
 describe("booking.getByLab", () => {
   it("returns bookings for a specific lab when authenticated", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId, campusId } = await seedCampusAndLab(t);
     await seedBooking(t, labId, campusId);
@@ -198,7 +185,7 @@ describe("booking.getByLab", () => {
   });
 
   it("returns empty array when no bookings exist for the lab", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId } = await seedCampusAndLab(t);
 
@@ -209,11 +196,11 @@ describe("booking.getByLab", () => {
   });
 
   it("throws when user is not authenticated", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId } = await seedCampusAndLab(t);
 
-    await setAuthUser(null);
+    setAuthUser(null);
 
     await expect(
       t.query(api.booking.getByLab, { id: asLabId(labId) }),
@@ -223,7 +210,7 @@ describe("booking.getByLab", () => {
 
 describe("booking.getByCampus", () => {
   it("returns bookings for a specific campus when authenticated", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId, campusId } = await seedCampusAndLab(t);
     await seedBooking(t, labId, campusId);
@@ -235,7 +222,7 @@ describe("booking.getByCampus", () => {
   });
 
   it("returns empty array when no bookings exist for the campus", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { campusId } = await seedCampusAndLab(t);
 
@@ -246,11 +233,11 @@ describe("booking.getByCampus", () => {
   });
 
   it("throws when user is not authenticated", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { campusId } = await seedCampusAndLab(t);
 
-    await setAuthUser(null);
+    setAuthUser(null);
 
     await expect(
       t.query(api.booking.getByCampus, { id: asCampusId(campusId) }),
@@ -260,7 +247,7 @@ describe("booking.getByCampus", () => {
 
 describe("booking.getByUser", () => {
   it("returns bookings for the authenticated user", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId, campusId } = await seedCampusAndLab(t);
     await seedBooking(t, labId, campusId);
@@ -272,8 +259,8 @@ describe("booking.getByUser", () => {
     expect(bookings[0].userId).toBe(MOCK_USER._id);
   });
 
-  it("throws when querying another user's bookings", async () => {
-    await setAuthUser(MOCK_USER);
+  it("throws when querying another user's bookings without admin role", async () => {
+    setAuthUser({ ...MOCK_USER, role: "student" });
     const t = convexTest(schema, modules);
 
     await expect(
@@ -282,7 +269,7 @@ describe("booking.getByUser", () => {
   });
 
   it("throws when user is not authenticated", async () => {
-    await setAuthUser(null);
+    setAuthUser(null);
     const t = convexTest(schema, modules);
 
     await expect(
@@ -293,7 +280,7 @@ describe("booking.getByUser", () => {
 
 describe("booking.getById", () => {
   it("returns a booking by ID when authenticated", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId, campusId } = await seedCampusAndLab(t);
 
@@ -306,13 +293,13 @@ describe("booking.getById", () => {
   });
 
   it("throws when user is not authenticated", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId, campusId } = await seedCampusAndLab(t);
 
     const bookingId = await seedBooking(t, labId, campusId);
 
-    await setAuthUser(null);
+    setAuthUser(null);
 
     await expect(
       t.query(api.booking.getById, { id: asBookingId(bookingId) }),
@@ -322,7 +309,7 @@ describe("booking.getById", () => {
 
 describe("booking.reschedule", () => {
   it("reschedules a booking when the owner is authenticated", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId, campusId } = await seedCampusAndLab(t);
 
@@ -330,7 +317,8 @@ describe("booking.reschedule", () => {
 
     await t.mutation(api.booking.reschedule, {
       id: asBookingId(bookingId),
-      data: { startDate: SLOT_B_START, endDate: SLOT_B_END },
+      startDate: SLOT_B_START,
+      endDate: SLOT_B_END,
     });
 
     const booking = await t.query(api.booking.getById, {
@@ -343,24 +331,25 @@ describe("booking.reschedule", () => {
   });
 
   it("throws when a different user tries to reschedule", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId, campusId } = await seedCampusAndLab(t);
 
     const bookingId = await seedBooking(t, labId, campusId);
 
-    await setAuthUser(OTHER_USER);
+    setAuthUser(OTHER_USER);
 
     await expect(
       t.mutation(api.booking.reschedule, {
         id: asBookingId(bookingId),
-        data: { startDate: SLOT_B_START, endDate: SLOT_B_END },
+        startDate: SLOT_B_START,
+        endDate: SLOT_B_END,
       }),
     ).rejects.toThrowError();
   });
 
   it("throws when reschedule creates an overlap with another booking", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId, campusId } = await seedCampusAndLab(t);
 
@@ -378,27 +367,26 @@ describe("booking.reschedule", () => {
     await expect(
       t.mutation(api.booking.reschedule, {
         id: asBookingId(booking2Id),
-        data: {
-          startDate: SLOT_A_START + 1_800_000,
-          endDate: SLOT_A_END + 1_800_000,
-        },
+        startDate: SLOT_A_START + 1_800_000,
+        endDate: SLOT_A_END + 1_800_000,
       }),
     ).rejects.toThrowError();
   });
 
   it("throws when user is not authenticated", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId, campusId } = await seedCampusAndLab(t);
 
     const bookingId = await seedBooking(t, labId, campusId);
 
-    await setAuthUser(null);
+    setAuthUser(null);
 
     await expect(
       t.mutation(api.booking.reschedule, {
         id: asBookingId(bookingId),
-        data: { startDate: SLOT_B_START, endDate: SLOT_B_END },
+        startDate: SLOT_B_START,
+        endDate: SLOT_B_END,
       }),
     ).rejects.toThrowError();
   });
@@ -406,7 +394,7 @@ describe("booking.reschedule", () => {
 
 describe("booking.cancel", () => {
   it("cancels a booking when the owner is authenticated", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId, campusId } = await seedCampusAndLab(t);
 
@@ -421,13 +409,13 @@ describe("booking.cancel", () => {
   });
 
   it("throws when a different user tries to cancel", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId, campusId } = await seedCampusAndLab(t);
 
     const bookingId = await seedBooking(t, labId, campusId);
 
-    await setAuthUser(OTHER_USER);
+    setAuthUser(OTHER_USER);
 
     await expect(
       t.mutation(api.booking.cancel, { id: asBookingId(bookingId) }),
@@ -435,13 +423,13 @@ describe("booking.cancel", () => {
   });
 
   it("throws when user is not authenticated", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const { labId, campusId } = await seedCampusAndLab(t);
 
     const bookingId = await seedBooking(t, labId, campusId);
 
-    await setAuthUser(null);
+    setAuthUser(null);
 
     await expect(
       t.mutation(api.booking.cancel, { id: asBookingId(bookingId) }),

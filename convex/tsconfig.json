@@ -18,10 +18,7 @@
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "isolatedModules": true,
-    "noEmit": true,
-    "paths": {
-      "@app/*": ["../src/*"]
-    }
+    "noEmit": true
   },
   "include": ["./**/*"],
   "exclude": ["./_generated"]

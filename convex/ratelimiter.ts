@@ -1,4 +1,4 @@
-import { config } from "@app/config";
+import { config } from "./config";
 import type { RunMutationCtx } from "@convex-dev/rate-limiter";
 import { HOUR, MINUTE, RateLimiter } from "@convex-dev/rate-limiter";
 import { ConvexError } from "convex/values";

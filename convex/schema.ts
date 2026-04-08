@@ -25,17 +25,29 @@ export const labs = zodTable("labs", (id) => ({
 export const bookings = zodTable("bookings", (id) => ({
   labId: id("labs"),
   campusId: id("campuses"),
-  users: z.array(id("users")).optional(),
-  name: z.string().optional(),
   userId: z.string(),
+  name: z.string(),
   startDate: z.number(),
   endDate: z.number(),
+  participants: z
+    .array(
+      z.object({
+        name: z.string(),
+        email: z.string(),
+      }),
+    )
+    .default([]),
 }));
 
 export const users = zodTable("users", () => ({
-  userId: z.string(),
-  // Won't be assigned at creation time, onboarding will require user's role.
-  role: z.enum(["professor", "student"]).optional(),
+  tokenIdentifier: z.string(),
+  email: z.string(),
+  name: z.string(),
+  documentType: z.enum(["CC", "CE", "PP"]).optional(),
+  documentNumber: z.string().optional(),
+  role: z.enum(["student", "professor", "support", "admin"]).optional(),
+  onboardingCompleted: z.boolean().default(false),
+  isOffDomain: z.boolean().default(false),
 }));
 
 export default defineSchema({
@@ -55,6 +67,6 @@ export default defineSchema({
     }),
   users: users
     .table()
-    .index("by_userId", ["userId"])
+    .index("by_tokenIdentifier", ["tokenIdentifier"])
     .index("by_role", ["role"]),
 });

@@ -4,24 +4,27 @@ import { describe, expect, it, vi } from "vitest";
 import { api, internal } from "./_generated/api";
 import schema from "./schema";
 
+let mockUser: Record<string, unknown> | null = null;
+
 vi.mock("./auth", () => ({
-  getCurrentUser: vi.fn(),
-  authComponent: {},
-  createAuth: vi.fn(),
-  onCreate: vi.fn(),
-  onUpdate: vi.fn(),
-  onDelete: vi.fn(),
-  getAuthUser: vi.fn(),
+  getCurrentUser: vi.fn().mockImplementation(() => Promise.resolve(mockUser)),
+  requireUser: vi.fn().mockImplementation(() => {
+    if (!mockUser) return Promise.reject(new Error("Not authenticated"));
+    return Promise.resolve(mockUser);
+  }),
+  requireRole: vi.fn().mockImplementation(() => {
+    if (!mockUser) return Promise.reject(new Error("Not authenticated"));
+    return Promise.resolve(mockUser);
+  }),
 }));
 
 const modules = import.meta.glob("./**/*.ts");
 
-async function setAuthUser(user: Record<string, unknown> | null) {
-  const { getCurrentUser } = await import("./auth");
-  vi.mocked(getCurrentUser).mockResolvedValue(user as never);
+function setAuthUser(user: Record<string, unknown> | null) {
+  mockUser = user;
 }
 
-const MOCK_USER = { _id: "user_abc123", email: "test@udi.edu.co" };
+const MOCK_USER = { _id: "user_abc123", email: "test@udi.edu.co", role: "admin" };
 
 const CAMPUS_DATA = {
   name: "Campus Norte",
@@ -41,13 +44,14 @@ async function seedCampus(
 
 describe("campus.getAll", () => {
   it("returns empty array when no campuses exist", async () => {
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const campuses = await t.query(api.campus.getAll, {});
     expect(campuses).toEqual([]);
   });
 
   it("returns all campuses after creating them", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
 
     await seedCampus(t);
@@ -68,7 +72,7 @@ describe("campus.getAll", () => {
 
 describe("campus.create (internal)", () => {
   it("creates a campus when user is authenticated", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
 
     const id = await t.mutation(internal.campus.create, CAMPUS_DATA);
@@ -80,7 +84,7 @@ describe("campus.create (internal)", () => {
   });
 
   it("throws when no user is authenticated", async () => {
-    await setAuthUser(null);
+    setAuthUser(null);
     const t = convexTest(schema, modules);
 
     await expect(
@@ -91,7 +95,7 @@ describe("campus.create (internal)", () => {
 
 describe("campus.update (internal)", () => {
   it("updates campus fields when user is authenticated", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
 
     const campusId = await seedCampus(t);
@@ -106,11 +110,11 @@ describe("campus.update (internal)", () => {
   });
 
   it("throws when no user is authenticated on update", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const campusId = await seedCampus(t);
 
-    await setAuthUser(null);
+    setAuthUser(null);
 
     await expect(
       t.mutation(internal.campus.update, {
@@ -123,7 +127,7 @@ describe("campus.update (internal)", () => {
 
 describe("campus.remove (internal)", () => {
   it("deletes a campus when user is authenticated", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
 
     const campusId = await seedCampus(t);
@@ -134,11 +138,11 @@ describe("campus.remove (internal)", () => {
   });
 
   it("throws when no user is authenticated on remove", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
     const campusId = await seedCampus(t);
 
-    await setAuthUser(null);
+    setAuthUser(null);
 
     await expect(
       t.mutation(internal.campus.remove, { id: campusId }),
@@ -148,7 +152,7 @@ describe("campus.remove (internal)", () => {
 
 describe("campus.search", () => {
   it("returns campuses matching the search query when authenticated", async () => {
-    await setAuthUser(MOCK_USER);
+    setAuthUser(MOCK_USER);
     const t = convexTest(schema, modules);
 
     await seedCampus(t); // "Campus Norte"
@@ -167,7 +171,7 @@ describe("campus.search", () => {
   });
 
   it("throws when no user is authenticated", async () => {
-    await setAuthUser(null);
+    setAuthUser(null);
     const t = convexTest(schema, modules);
 
     await expect(
